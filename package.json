@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "license": "APACHE-2.0",
+  "engines": {
+    "node": "12.x.x"
+  },
+  "workspaces": [
+    "api",
+    "web"
+  ],
+  "scripts": {
+    "start": "nf start",
+    "dev": "nf start",
+    "test": "yarn run test-api && yarn run test-web",
+    "test-api": "cd api && yarn test",
+    "test-web": "cd web && yarn test",
+    "postinstall": "yarn run postinstall-api && yarn run postinstall-web",
+    "postinstall-web": "cd web && yarn run postinstall",
+    "postinstall-api": "cd api && yarn run postinstall"
+  },
+  "dependencies": {
+    "foreman": "^3.0.1"
+  }
+}

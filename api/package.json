@@ -1,0 +1,42 @@
+{
+  "author": "Evan Tahler <evan@delicioushat.com>",
+  "name": "chat-sample-project-api",
+  "license": "APACHE-2.0",
+  "description": "chat-sample-project-api",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "dependencies": {
+    "actionhero": "^21.0.8",
+    "ah-sequelize-plugin": "^2.0.1",
+    "bcrypt": "^3.0.6",
+    "ioredis": "^4.14.0",
+    "pg": "^7.12.1",
+    "pg-hstore": "^2.3.3",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^5.19.2",
+    "sequelize-typescript": "^1.0.0",
+    "winston": "^3.2.1",
+    "ws": "^7.1.2"
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.29",
+    "@types/faker": "^4.1.7",
+    "@types/node": "^12.12.8",
+    "@types/validator": "^12.0.0",
+    "jest": "24.9.0",
+    "prettier": "^1.19.1",
+    "ts-node-dev": "latest",
+    "typescript": "^3.7.2"
+  },
+  "scripts": {
+    "postinstall": "yarn run build",
+    "dev": "ts-node-dev --transpile-only --no-deps --notify=false ./node_modules/.bin/actionhero start",
+    "start": "actionhero start",
+    "build": "rm -rf dist && ./node_modules/.bin/tsc --declaration",
+    "pretest": "yarn run lint",
+    "lint": "prettier --check src/*/**.ts __tests__/*/**.ts",
+    "test": "jest"
+  }
+}

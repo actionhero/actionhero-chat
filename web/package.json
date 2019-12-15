@@ -1,0 +1,39 @@
+{
+  "author": "Evan Tahler <evan@delicioushat.com>",
+  "name": "chat-sample-project-web",
+  "license": "APACHE-2.0",
+  "description": "chat-sample-project-web",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "bootstrap": "^4.3.1",
+    "next": "^9.0.6",
+    "react": "^16.9.0",
+    "react-bootstrap": "^1.0.0-beta.12",
+    "react-dom": "^16.9.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.12.8",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "jest": "^24.9.0",
+    "jest-environment-webdriver": "^0.2.0",
+    "jest-mock-axios": "^3.1.1",
+    "prettier": "^1.19.1",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.7.2"
+  },
+  "scripts": {
+    "postinstall": "yarn run build",
+    "dev": "next dev",
+    "start": "next start -p $PORT",
+    "build": "next build",
+    "test": "jest",
+    "lint": "prettier --check pages/*/**.tsx components/*/**.tsx classes/*/**.ts repositories/*/**.ts utils/*/**.ts __tests__/*/**.tsx",
+    "pretest": "yarn run lint"
+  }
+}
