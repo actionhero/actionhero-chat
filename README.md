@@ -1,5 +1,7 @@
 # Chat Sample Project
 
+[![CircleCI](https://circleci.com/gh/actionhero/actionhero-chat.svg?style=svg)](https://circleci.com/gh/actionhero/actionhero-chat)
+
 This project is a fully-fledged modern application based on `Actionhero`, `React`, and `Next.JS`. It uses Sequelzie as the ORM and connects to Redis and Postgres. This app is deployed automatically to Heroku from the master branch. This project is meant to serve as an example for a more complex Actionhero projects.
 
 This application features:
