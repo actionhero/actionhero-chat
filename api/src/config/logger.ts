@@ -11,7 +11,7 @@ function buildConsoleLogger(level = "info") {
       format: winston.format.combine(
         winston.format.colorize(),
         winston.format.printf(info => {
-          return `${config.process.id} - ${info.level}: ${
+          return `${info.level}: ${
             info.message
           } ${stringifyExtraMessagePropertiesForConsole(info)}`;
         })

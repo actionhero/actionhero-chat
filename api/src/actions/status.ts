@@ -1,7 +1,7 @@
 import { api, id, task, Action, actionheroVersion } from "actionhero";
 import * as path from "path";
 const packageJSON = require(path.normalize(
-  path.join(__dirname, "..", "..", "package.json")
+  path.join(__dirname, "..", "..", "..", "package.json")
 ));
 
 // These values are probably good starting points, but you should expect to tweak them for your application
