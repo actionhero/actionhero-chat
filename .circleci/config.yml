@@ -121,11 +121,11 @@ jobs:
             && createdb --host localhost --user postgres chat_test_3
             && createdb --host localhost --user postgres chat_test_4
             && createdb --host localhost --user postgres chat_test_5
-          name: test
-          command: cd web && ./../node_modules/.bin/jest --ci --maxWorkers 5
-          environment:
-            NODE_ENV: test
-            SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
+      - name: test
+        command: cd web && ./../node_modules/.bin/jest --ci --maxWorkers 5
+        environment:
+          NODE_ENV: test
+          SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
 
   complete:
     docker:
