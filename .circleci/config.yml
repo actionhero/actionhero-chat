@@ -1,0 +1,165 @@
+version: 2
+
+# Define common steps all parts of the test workflow use
+references:
+  ignored-branches: &ignored-branches
+    branches:
+      ignore:
+        - gh-pages
+
+  cache-options: &cache-options
+    key: package-cache-{{ .Branch }}-{{ .Revision }}
+
+# Define Jobs to run
+jobs:
+  build:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *cache-options
+      - run:
+          name: yarn-install
+          command: yarn install
+      - run:
+          name: yarn-build
+          command: yarn build
+      - save_cache:
+          <<: *cache-options
+          paths:
+            - node_modules
+            - web/.next
+            - api/dist
+
+  linter-api:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *cache-options
+      - run:
+          name: linter-api
+          command: yarn run lint-api
+
+  linter-web:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *cache-options
+      - run:
+          name: linter-web
+          command: yarn run lint-web
+
+  test-api:
+    docker:
+      - image: circleci/node:12
+      - image: redis:latest
+      - image: circleci/postgres:9
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *cache-options
+      - run:
+          name: display-node-version
+          command: node --version
+      - run:
+          name: display-yarn-version
+          command: yarn --version
+      - run:
+          name: install postgresql client
+          command: sudo apt install -y postgresql-client
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: create test databases
+          command: cd api && createdb chat_test_1 && createdb chat_test_2 && createdb chat_test_3 && createdb chat_test_4 && createdb chat_test_5
+      - run:
+          name: test
+          command: cd api && ./../node_modules/.bin/jest --ci --maxWorkers 5
+          environment:
+            NODE_ENV: test
+
+  test-web:
+    docker:
+      - image: circleci/node:12
+      - image: selenium/standalone-chrome:latest
+      - image: redis:latest
+      - image: circleci/postgres:9
+    steps:
+      - checkout
+      - restore_cache:
+          <<: *cache-options
+      - run:
+          name: display-node-version
+          command: node --version
+      - run:
+          name: display-yarn-version
+          command: yarn --version
+      - run:
+          name: install postgresql client
+          command: sudo apt install -y postgresql-client
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: create test databases
+          command: cd api && createdb chat_test_1 && createdb chat_test_2 && createdb chat_test_3 && createdb chat_test_4 && createdb chat_test_5
+      - run:
+          name: test
+          command: cd web && ./../node_modules/.bin/jest --ci --maxWorkers 5
+          environment:
+            NODE_ENV: test
+            SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
+
+  complete:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - run:
+          name: complete
+          command: echo "Tests Complete!"
+
+# Run all the tests is parallel
+workflows:
+  version: 2
+  test-actionhero-chat:
+    jobs:
+      - build:
+          filters:
+            <<: *ignored-branches
+
+      - linter-api:
+          filters:
+            <<: *ignored-branches
+          requires:
+            - build
+
+      - linter-web:
+          filters:
+            <<: *ignored-branches
+          requires:
+            - build
+
+      - test-api:
+          filters:
+            <<: *ignored-branches
+          requires:
+            - linter-api
+
+      - test-web:
+          filters:
+            <<: *ignored-branches
+          requires:
+            - linter-web
+
+      - complete:
+          filters:
+            <<: *ignored-branches
+          requires:
+            - test-web
+            - test-api

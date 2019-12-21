@@ -59,6 +59,10 @@ describe("models/user", () => {
       await user.updatePassword("Passw0rd!");
     });
 
+    afterAll(async () => {
+      await user.destroy();
+    });
+
     test("matching passwords will be validated", async () => {
       const match = await user.checkPassword("Passw0rd!");
       expect(match).toBe(true);
