@@ -77,7 +77,13 @@ jobs:
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: create test databases
-          command: cd api && createdb --host localhost --user postgres chat_test_1 && createdb --host localhost --user postgres chat_test_2 && createdb --host localhost --user postgres chat_test_3 && createdb --host localhost --user postgres chat_test_4 && createdb --host localhost --user postgres chat_test_5
+          command: >
+            cd api
+            && createdb --host localhost --user postgres chat_test_1
+            && createdb --host localhost --user postgres chat_test_2
+            && createdb --host localhost --user postgres chat_test_3
+            && createdb --host localhost --user postgres chat_test_4
+            && createdb --host localhost --user postgres chat_test_5
       - run:
           name: test
           command: cd api && ./../node_modules/.bin/jest --ci --maxWorkers 5
@@ -108,7 +114,13 @@ jobs:
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: create test databases
-          command: cd api && createdb --host localhost --user postgres chat_test_1 && createdb --host localhost --user postgres chat_test_2 && createdb --host localhost --user postgres chat_test_3 && createdb --host localhost --user postgres chat_test_4 && createdb --host localhost --user postgres chat_test_5
+          command: >
+            cd api
+            && createdb --host localhost --user postgres chat_test_1
+            && createdb --host localhost --user postgres chat_test_2
+            && createdb --host localhost --user postgres chat_test_3
+            && createdb --host localhost --user postgres chat_test_4
+            && createdb --host localhost --user postgres chat_test_5
           name: test
           command: cd web && ./../node_modules/.bin/jest --ci --maxWorkers 5
           environment:
