@@ -8,6 +8,7 @@ This application features:
 
 - Clear Project layout
 - Accounts (sign up, sign in, Sessions, CSRF validation)
+- Client-side caching via the repository pattern
 - Real time chat
 - Persistent message storage
 - Parallel Testing (unit, action, component, and integration)
