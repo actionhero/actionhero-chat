@@ -1,4 +1,5 @@
 import { User } from "./../../src/models/User";
+import { Message } from "./../../src/models/Message";
 import { Process } from "actionhero";
 const actionhero = new Process();
 
@@ -86,6 +87,58 @@ describe("models/user", () => {
       await expect(user.checkPassword("Passw0rd!")).rejects.toThrow(
         /password not set/
       );
+    });
+  });
+
+  describe("messages", () => {
+    let mario;
+    let luigi;
+    beforeAll(async () => {
+      mario = await User.create({
+        userName: "Mario",
+        email: "mario@example.com"
+      });
+
+      luigi = await User.create({
+        userName: "Luigi",
+        email: "luigi@example.com"
+      });
+    });
+
+    afterAll(async () => {
+      await mario.destroy();
+      await luigi.destroy();
+    });
+
+    test("unread messages can be found", async () => {
+      await Message.create({
+        fromId: mario.id,
+        toId: luigi.id,
+        message: "unread message"
+      });
+
+      await Message.create({
+        fromId: mario.id,
+        toId: luigi.id,
+        message: "read message",
+        readAt: new Date()
+      });
+
+      const unreadMessages = await luigi.unreadMessages();
+      expect(unreadMessages.length).toBe(1);
+      expect(unreadMessages[0].message).toBe("unread message");
+    });
+
+    test("the users you are having conversations with can be found", async () => {
+      await Message.create({
+        fromId: mario.id,
+        toId: luigi.id,
+        message: "unread message"
+      });
+
+      const conversationUsers = await luigi.conversations();
+      expect(conversationUsers.length).toBe(1);
+      expect(conversationUsers[0].id).toBe(mario.id);
     });
   });
 });

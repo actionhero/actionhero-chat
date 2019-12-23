@@ -8,7 +8,8 @@ import {
   AutoIncrement,
   PrimaryKey,
   ForeignKey,
-  BelongsTo
+  BelongsTo,
+  BeforeCreate
 } from "sequelize-typescript";
 import { User } from "./User";
 
@@ -55,5 +56,19 @@ export class Message extends Model<Message> {
       readAt: this.readAt,
       createdAt: this.createdAt
     };
+  }
+
+  @BeforeCreate
+  static async ensureUsersExist(instance: Message) {
+    const sender = await instance.$get("sender");
+    const recipient = await instance.$get("recipient");
+
+    if (!sender) {
+      throw new Error("sender not found");
+    }
+
+    if (!recipient) {
+      throw new Error("recipient not found");
+    }
   }
 }
