@@ -21,7 +21,7 @@ export class Client {
       url: "" + path,
       withCredentials: true,
       //@ts-ignore
-      agent: `grouparoo-web-${PackageJSON.version}`,
+      agent: `actionhero-chat-web-${PackageJSON.version}`,
       method: verb.toLowerCase() as Method,
       headers: {
         Accept: "application/json",

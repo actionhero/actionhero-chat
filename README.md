@@ -1,4 +1,4 @@
-# Chat Sample Project
+# Actionhero Chat Sample Project
 
 [![CircleCI](https://circleci.com/gh/actionhero/actionhero-chat.svg?style=svg)](https://circleci.com/gh/actionhero/actionhero-chat)
 
