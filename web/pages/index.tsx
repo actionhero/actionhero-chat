@@ -1,12 +1,26 @@
-import Layout from "./../components/layout/main";
+import { Component } from "react";
 import ReactMarkdown from "react-markdown";
+import Layout from "./../components/layout/main";
 
-const { default: markdown } = require("./../../README.md");
+interface Props {
+  content: string;
+}
 
-export default function hello(props) {
-  return (
-    <Layout title="Actionhero Chat">
-      <ReactMarkdown source={markdown} />
-    </Layout>
-  );
+export default class IndexPage extends Component<Props> {
+  static async getInitialProps() {
+    const content = await require("./../../README.md");
+    return {
+      content: content.default
+    };
+  }
+
+  render() {
+    const { content } = this.props;
+
+    return (
+      <Layout title="Actionhero Chat">
+        <ReactMarkdown source={content} />
+      </Layout>
+    );
+  }
 }

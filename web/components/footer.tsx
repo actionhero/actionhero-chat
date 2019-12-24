@@ -7,6 +7,10 @@ export default function footer({ errorHandler }) {
     <footer>
       <hr />
       <small>
+        <a href="https://github.com/actionhero/actionhero-chat" target="_new">
+          View project source on Github
+        </a>
+        <br />
         {loading ? "loading..." : `Connected to api v${result.version}`}
       </small>
     </footer>

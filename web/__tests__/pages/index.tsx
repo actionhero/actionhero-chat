@@ -5,7 +5,7 @@ describe("components/footer", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<Index />);
+    wrapper = shallow(<Index content="# hello world" />);
   });
 
   afterEach(() => {
@@ -13,6 +13,7 @@ describe("components/footer", () => {
   });
 
   test("renders the page", () => {
-    expect(wrapper.html()).toContain("Hello World");
+    expect(wrapper.html()).toContain("hello world");
+    expect(wrapper.html()).toContain("View project source on Github");
   });
 });
