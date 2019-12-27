@@ -14,6 +14,5 @@ describe("components/footer", () => {
 
   test("renders the page", () => {
     expect(wrapper.html()).toContain("hello world");
-    expect(wrapper.html()).toContain("View project source on Github");
   });
 });
