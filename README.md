@@ -22,13 +22,17 @@ This project runs Actionhero, which then in turn hands of processing of the fron
 - Actionhero
 - Sequelzie and Typescript-Sequelzie via ah-sequelize-plugin
   - Migrations
+- typescript tags for model definition
+- migrations for database schema management
+- Session management via redis and endpoint protection via middleware
+- Parallel testing against multiple databases
 
 ### Front End
 
 - Next.js
 - Client-side protection combining session cookies with CSRF protection
-- React + Hooks
-- React Bootstrap
+- React + Hooks: Functional components and Hooks for API access
+- React Bootstrap for responsive pages
 - Full browser testing with Jest + Selenium
 
 ## Running Locally (OSX)
@@ -42,6 +46,9 @@ brew services start redis
 
 #2. create the postgres database
 createdb chat_development
+
+#3
+yarn start
 
 ```
 
