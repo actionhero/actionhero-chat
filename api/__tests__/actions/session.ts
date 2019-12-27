@@ -9,6 +9,7 @@ describe("session", () => {
 
   beforeAll(async () => {
     await actionhero.start();
+    await User.destroy({ truncate: true });
   });
 
   afterAll(async () => {
@@ -22,10 +23,6 @@ describe("session", () => {
     });
 
     await peach.updatePassword("P@ssw0rd!");
-  });
-
-  afterAll(async () => {
-    await peach.destroy();
   });
 
   describe("session:create", () => {

@@ -9,14 +9,11 @@ describe("session", () => {
 
   beforeAll(async () => {
     await actionhero.start();
+    await User.destroy({ truncate: true });
   });
 
   afterAll(async () => {
     await actionhero.stop();
-  });
-
-  afterAll(async () => {
-    await User.destroy({ where: { email: "mario@example.com" } });
   });
 
   describe("user creation and log in", () => {

@@ -16,7 +16,7 @@
     "test": "yarn test-api && yarn test-web",
     "pretest": "yarn lint && yarn build",
     "test-api": "cd api && jest --maxWorkers 5",
-    "test-web": "cd web && jest",
+    "test-web": "cd web && jest --maxWorkers 5",
     "lint": "yarn lint-api && yarn lint-web",
     "lint-api": "cd api && prettier --check src/**/*.ts __tests__/**/*.ts",
     "lint-web": "cd web && prettier --check pages/**/*.tsx components/**/*.tsx classes/**/*.ts repositories/**/*.ts __tests__/**/*.tsx"
@@ -53,6 +53,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "jest": "24.9.0",
+    "jest-environment-webdriver": "^0.2.0",
     "prettier": "^1.19.1",
     "ts-jest": "^24.2.0",
     "ts-node-dev": "latest",

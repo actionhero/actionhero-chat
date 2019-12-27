@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Jumbotron } from "react-bootstrap";
 import { useApi } from "./../hooks/useApi";
 
 export default function Dashboard({ errorHandler }) {
@@ -13,7 +14,9 @@ export default function Dashboard({ errorHandler }) {
     <>
       <h1>Dashboard</h1>
 
-      <p>Hi, {user.userName}</p>
+      <Jumbotron>
+        <p>Hi, {user.userName}</p>
+      </Jumbotron>
     </>
   );
 }

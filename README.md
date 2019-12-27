@@ -29,6 +29,7 @@ This project runs Actionhero, which then in turn hands of processing of the fron
 - Client-side protection combining session cookies with CSRF protection
 - React + Hooks
 - React Bootstrap
+- Full browser testing with Jest + Selenium
 
 ## Running Locally (OSX)
 
@@ -48,13 +49,13 @@ createdb chat_development
 
 ```bash
 #1. create the postgres databases (we will run up to 5 tests in parallel)
-createdb chat_test_1
-createdb chat_test_2
-createdb chat_test_3
-createdb chat_test_4
-createdb chat_test_5
+./api/bin/create_test_databases
 
-#2. Run the test suite
+#2 Install the Chrome webdriver
+# (on OSX)
+brew cask install chromedriver
+
+#3. Run the test suite
 # we will built the app, run linters, and test the web and api
 yarn test
 ```

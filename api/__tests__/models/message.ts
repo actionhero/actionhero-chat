@@ -6,6 +6,8 @@ const actionhero = new Process();
 describe("models/message", () => {
   beforeAll(async () => {
     await actionhero.start();
+    await User.destroy({ truncate: true });
+    await Message.destroy({ truncate: true });
   });
 
   afterAll(async () => {

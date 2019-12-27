@@ -6,6 +6,7 @@ const actionhero = new Process();
 describe("models/user", () => {
   beforeAll(async () => {
     await actionhero.start();
+    await User.destroy({ truncate: true });
   });
 
   afterAll(async () => {
