@@ -1,7 +1,13 @@
+import { useState, useEffect } from "react";
 import { useApi } from "./../hooks/useApi";
 
 export default function footer({ errorHandler }) {
-  const [result, loading] = useApi(errorHandler, "get", "/api/1/status");
+  const [version, setVersion] = useState("~");
+  const [loading, execApi] = useApi(errorHandler, "/api/1/status");
+
+  useEffect(() => {
+    execApi(null, setVersion, "version");
+  }, []);
 
   return (
     <footer>
@@ -11,7 +17,7 @@ export default function footer({ errorHandler }) {
           View project source on Github
         </a>
         <br />
-        {loading ? "loading..." : `Connected to api v${result.version}`}
+        {loading ? "loading..." : `Connected to api v${version}`}
       </small>
     </footer>
   );

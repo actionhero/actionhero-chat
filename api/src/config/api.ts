@@ -51,6 +51,7 @@ export const DEFAULT = {
         server: [path.join(__dirname, "..", "servers")],
         cli: [path.join(__dirname, "..", "bin")],
         initializer: [path.join(__dirname, "..", "initializers")],
+        next: [path.join(process.cwd(), "..", "web")],
         public: [path.join(process.cwd(), "..", "web", "public")],
         pid: [path.join(process.cwd(), "pids")],
         log: [path.join(process.cwd(), "log")],

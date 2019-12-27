@@ -7,6 +7,7 @@ import {
   AllowNull,
   AutoIncrement,
   IsEmail,
+  Length,
   PrimaryKey,
   HasMany
 } from "sequelize-typescript";
@@ -24,6 +25,7 @@ export class User extends Model<User> {
   id: number;
 
   @AllowNull(false)
+  @Length({ min: 3 })
   @Column
   userName: string;
 

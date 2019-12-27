@@ -7,10 +7,8 @@ export class Client {
 
   csrfToken() {
     if (window && window.localStorage) {
-      const sessionBlob = window.localStorage.getItem("repository:session");
-      if (sessionBlob) {
-        return JSON.parse(sessionBlob).data.csrfToken;
-      }
+      const csrfToken = window.localStorage.getItem("session:csrfToken");
+      return csrfToken;
     }
   }
 

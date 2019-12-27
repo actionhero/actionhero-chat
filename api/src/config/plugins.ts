@@ -12,6 +12,16 @@ export const DEFAULT = {
           "node_modules",
           "ah-sequelize-plugin"
         )
+      },
+      "ah-next-plugin": {
+        path: join(
+          __dirname,
+          "..",
+          "..",
+          "..",
+          "node_modules",
+          "ah-next-plugin"
+        )
       }
     };
   }

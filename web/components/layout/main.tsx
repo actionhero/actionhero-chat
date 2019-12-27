@@ -29,32 +29,30 @@ class Layout extends Component<Props, State> {
   }
 
   render() {
-    const { children, title } = this.props;
+    const { children } = this.props;
     const { successHandler, errorHandler } = this.state;
 
     return (
       <>
         <Head>
           <link rel="stylesheet" href="/css/bootstrap.min.css" />
-          <title>{title}</title>
-          <meta
-            name="application-name"
-            content={`Actionhero Chat - ${title}`}
-          />
+          <title>Actionhero Chat</title>
+          <meta name="application-name" content={`Actionhero Chat`} />
         </Head>
 
         <Container>
-          <SuccessAlert successHandler={successHandler} />
-          <ErrorAlert errorHandler={errorHandler} />
           <Row>
             <Col>
               <br />
               <Navigation />
               <br />
+              <SuccessAlert successHandler={successHandler} />
+              <ErrorAlert errorHandler={errorHandler} />
               {React.Children.map(children, child =>
                 //@ts-ignore
                 React.cloneElement(child, { successHandler, errorHandler })
               )}
+              {/* {children} */}
               <Footer errorHandler={errorHandler} />
             </Col>
           </Row>
