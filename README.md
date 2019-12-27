@@ -8,7 +8,6 @@ This application features:
 
 - Clear Project layout
 - Accounts (sign up, sign in, Sessions, CSRF validation)
-- Client-side caching via the repository pattern
 - Real time chat
 - Persistent message storage
 - Parallel Testing (unit, action, component, and integration)
@@ -27,8 +26,8 @@ This project runs Actionhero, which then in turn hands of processing of the fron
 ### Front End
 
 - Next.js
+- Client-side protection combining session cookies with CSRF protection
 - React + Hooks
-- Repository Pattern
 - React Bootstrap
 
 ## Running Locally (OSX)
