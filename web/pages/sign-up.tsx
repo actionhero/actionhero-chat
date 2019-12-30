@@ -5,7 +5,7 @@ import { useApi } from "./../hooks/useApi";
 
 export default function SignUp({ errorHandler, successHandler }) {
   const { handleSubmit, register } = useForm();
-  const [loading, execApi, response] = useApi(
+  const { loading, execApi, response } = useApi(
     errorHandler,
     "/api/1/user",
     "post"

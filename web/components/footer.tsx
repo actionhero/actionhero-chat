@@ -3,7 +3,7 @@ import { useApi } from "./../hooks/useApi";
 
 export default function footer({ errorHandler }) {
   const [version, setVersion] = useState("~");
-  const [loading, execApi] = useApi(errorHandler, "/api/1/status");
+  const { loading, execApi } = useApi(errorHandler, "/api/1/status");
 
   useEffect(() => {
     execApi(null, setVersion, "version");

@@ -5,7 +5,7 @@ import { ErrorHandler } from "./../utils/errorHandler";
 const client = new Client();
 
 export function useApi(errorHandler: ErrorHandler, path: string, verb = "get") {
-  const [result, setResult] = useState(null);
+  const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
 
   async function execApi(data = {}, setter?: Function, setterKey?: string) {
@@ -18,14 +18,14 @@ export function useApi(errorHandler: ErrorHandler, path: string, verb = "get") {
     setLoading(true);
 
     try {
-      const response = await client.action(verb, path, data);
-      setResult(response);
+      const apiResponse = await client.action(verb, path, data);
+      setResponse(apiResponse);
 
       if (setter) {
         if (setterKey) {
-          setter(response[setterKey]);
+          setter(apiResponse[setterKey]);
         } else {
-          setter(response);
+          setter(apiResponse);
         }
       }
 
@@ -43,5 +43,5 @@ export function useApi(errorHandler: ErrorHandler, path: string, verb = "get") {
     }
   }
 
-  return [loading, execApi, result];
+  return { loading, execApi, response };
 }

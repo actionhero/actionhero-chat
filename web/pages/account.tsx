@@ -6,15 +6,19 @@ import { Form, Button } from "react-bootstrap";
 export default function Dashboard({ successHandler, errorHandler }) {
   const [user, setUser] = useState({ id: null, userName: null, email: null });
   const { handleSubmit, register } = useForm();
-  const [userLoading, execViewApi] = useApi(errorHandler, "/api/1/user");
-  const [updateLoading, execUpdateApi] = useApi(
+  const { loading: userLoading, execApi: getAccount } = useApi(
+    errorHandler,
+    "/api/1/user",
+    "get"
+  );
+  const { loading: updateLoading, execApi: setAccount } = useApi(
     errorHandler,
     "/api/1/user",
     "put"
   );
 
   useEffect(() => {
-    execViewApi(null, setUser, "user");
+    getAccount(null, setUser, "user");
   }, []);
 
   const onSubmit = async data => {
@@ -22,7 +26,7 @@ export default function Dashboard({ successHandler, errorHandler }) {
       delete data.password;
     }
 
-    const success = await execUpdateApi(data, setUser, "user");
+    const success = await setAccount(data, setUser, "user");
     if (success) {
       successHandler.set({ message: "Updated!" });
     }

@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Head from "next/head";
-import { SuccessHandler } from "../../utils/successHandler";
-import { ErrorHandler } from "../../utils/errorHandler";
 
 import SuccessAlert from "../alerts/success";
 import ErrorAlert from "../alerts/error";
@@ -11,26 +9,19 @@ import Footer from "../footer";
 
 interface Props {
   title: string;
+  successHandler: any;
+  errorHandler: any;
+  sessionHandler: any;
 }
 
-interface State {
-  successHandler: SuccessHandler;
-  errorHandler: ErrorHandler;
-}
-
-class Layout extends Component<Props, State> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      successHandler: new SuccessHandler(),
-      errorHandler: new ErrorHandler()
-    };
-  }
-
+class Layout extends Component<Props> {
   render() {
-    const { children } = this.props;
-    const { successHandler, errorHandler } = this.state;
+    const {
+      children,
+      successHandler,
+      errorHandler,
+      sessionHandler
+    } = this.props;
 
     return (
       <>
@@ -44,7 +35,7 @@ class Layout extends Component<Props, State> {
           <Row>
             <Col>
               <br />
-              <Navigation />
+              <Navigation sessionHandler={sessionHandler} />
               <br />
               <SuccessAlert successHandler={successHandler} />
               <ErrorAlert errorHandler={errorHandler} />

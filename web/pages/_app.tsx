@@ -3,6 +3,7 @@ import Layout from "./../components/layout/main";
 
 import { ErrorHandler } from "./../utils/errorHandler";
 import { SuccessHandler } from "./../utils/successHandler";
+import { SessionHandler } from "./../utils/sessionHandler";
 
 export default class GrouparooApp extends App {
   constructor(props) {
@@ -10,10 +11,12 @@ export default class GrouparooApp extends App {
 
     const successHandler = new SuccessHandler();
     const errorHandler = new ErrorHandler();
+    const sessionHandler = new SessionHandler();
 
     this.state = {
       successHandler,
-      errorHandler
+      errorHandler,
+      sessionHandler
     };
   }
 

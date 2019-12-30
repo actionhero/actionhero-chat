@@ -4,9 +4,13 @@ import Router from "next/router";
 import { useForm } from "react-hook-form";
 import { useApi } from "./../hooks/useApi";
 
-export default function SignIn({ errorHandler, successHandler }) {
+export default function SignIn({
+  errorHandler,
+  successHandler,
+  sessionHandler
+}) {
   const { handleSubmit, register } = useForm();
-  const [loading, execApi, response] = useApi(
+  const { loading, execApi, response } = useApi(
     errorHandler,
     "/api/1/session",
     "post"
@@ -21,9 +25,9 @@ export default function SignIn({ errorHandler, successHandler }) {
       successHandler.set({
         message: "Session created"
       });
+      sessionHandler.set();
       window.localStorage.setItem("session:csrfToken", response.csrfToken);
-      // Router.push("/dashboard");
-      window.location.href = "/dashboard"; // this will force the whole page to re-render
+      Router.push("/dashboard");
     }
   });
 

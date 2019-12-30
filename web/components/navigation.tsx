@@ -3,11 +3,12 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { isBrowser } from "../utils/isBrowser";
 
-export default function navigation() {
+export default function navigation({ sessionHandler }) {
   const [signedIn, setSignedIn] = useState(false);
 
-  // this is calculated in an effect so it doesn't look like the client and server have different values
-  useEffect(() => {
+  function checkSignedInState() {
+    console.log("checking!");
+
     const _signedIn = isBrowser()
       ? window.localStorage.getItem("session:csrfToken")
         ? true
@@ -15,6 +16,15 @@ export default function navigation() {
       : false;
 
     setSignedIn(_signedIn);
+  }
+
+  // this is calculated in an effect so it doesn't look like the client and server have different values
+  useEffect(() => {
+    checkSignedInState();
+    sessionHandler.subscribe("navigation", checkSignedInState);
+    return () => {
+      sessionHandler.unsubscribe("navigation", checkSignedInState);
+    };
   }, []);
 
   const loggedInLinks = (
