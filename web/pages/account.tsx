@@ -21,7 +21,7 @@ export default function Dashboard({ successHandler, errorHandler }) {
 
     // const success = await setAccount(data, setUser, "user");
     execApi(data, "/api/1/user", "put", response => {
-      if (response.success) {
+      if (response.user) {
         successHandler.set({ message: "Updated!" });
       }
     });

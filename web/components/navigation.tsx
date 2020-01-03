@@ -7,8 +7,6 @@ export default function navigation({ sessionHandler }) {
   const [signedIn, setSignedIn] = useState(false);
 
   function checkSignedInState() {
-    console.log("checking!");
-
     const _signedIn = isBrowser()
       ? window.localStorage.getItem("session:csrfToken")
         ? true

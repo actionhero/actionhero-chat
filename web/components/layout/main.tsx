@@ -39,11 +39,7 @@ class Layout extends Component<Props> {
               <br />
               <SuccessAlert successHandler={successHandler} />
               <ErrorAlert errorHandler={errorHandler} />
-              {React.Children.map(children, child =>
-                //@ts-ignore
-                React.cloneElement(child, { successHandler, errorHandler })
-              )}
-              {/* {children} */}
+              {children}
               <Footer errorHandler={errorHandler} />
             </Col>
           </Row>
