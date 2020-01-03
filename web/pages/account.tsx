@@ -5,20 +5,13 @@ import { Form, Button } from "react-bootstrap";
 
 export default function Dashboard({ successHandler, errorHandler }) {
   const [user, setUser] = useState({ id: null, userName: null, email: null });
+  const { loading, execApi } = useApi(errorHandler);
   const { handleSubmit, register } = useForm();
-  const { loading: userLoading, execApi: getAccount } = useApi(
-    errorHandler,
-    "/api/1/user",
-    "get"
-  );
-  const { loading: updateLoading, execApi: setAccount } = useApi(
-    errorHandler,
-    "/api/1/user",
-    "put"
-  );
 
   useEffect(() => {
-    getAccount(null, setUser, "user");
+    execApi(null, "/api/1/user", "get", response => {
+      setUser(response.user);
+    });
   }, []);
 
   const onSubmit = async data => {
@@ -26,10 +19,12 @@ export default function Dashboard({ successHandler, errorHandler }) {
       delete data.password;
     }
 
-    const success = await setAccount(data, setUser, "user");
-    if (success) {
-      successHandler.set({ message: "Updated!" });
-    }
+    // const success = await setAccount(data, setUser, "user");
+    execApi(data, "/api/1/user", "put", response => {
+      if (response.success) {
+        successHandler.set({ message: "Updated!" });
+      }
+    });
   };
 
   return (
@@ -64,11 +59,7 @@ export default function Dashboard({ successHandler, errorHandler }) {
           <Form.Control name="password" type="password" ref={register} />
         </Form.Group>
 
-        <Button
-          variant="primary"
-          type="submit"
-          disabled={userLoading || updateLoading}
-        >
+        <Button variant="primary" type="submit" disabled={loading}>
           Update
         </Button>
       </Form>

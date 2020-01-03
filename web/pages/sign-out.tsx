@@ -7,28 +7,16 @@ export default function SignOut({
   errorHandler,
   sessionHandler
 }) {
-  const { execApi, response } = useApi(
-    errorHandler,
-    "/api/1/session",
-    "delete"
-  );
+  const { loading, execApi } = useApi(errorHandler);
 
   useEffect(() => {
-    execApi();
-  }, []);
-
-  useEffect(() => {
-    if (response) {
+    execApi(null, "/api/1/session", "delete", () => {
       window.localStorage.clear();
       successHandler.set({ message: "Signed out" });
       sessionHandler.set();
       Router.push("/");
-    }
-  });
+    });
+  }, []);
 
-  return (
-    <>
-      <small>Signing Out...</small>
-    </>
-  );
+  return <>{loading ? <small>Signing Out...</small> : null}</>;
 }

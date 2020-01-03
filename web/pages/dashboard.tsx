@@ -4,10 +4,14 @@ import { useApi } from "./../hooks/useApi";
 
 export default function Dashboard({ errorHandler }) {
   const [user, setUser] = useState({ userName: null });
-  const { execApi } = useApi(errorHandler, "/api/1/user");
+  const { execApi } = useApi(errorHandler);
 
   useEffect(() => {
-    execApi(null, setUser, "user");
+    execApi(null, "/api/1/user", "get", response => {
+      if (response.user) {
+        setUser(response.user);
+      }
+    });
   }, []);
 
   return (

@@ -10,26 +10,20 @@ export default function SignIn({
   sessionHandler
 }) {
   const { handleSubmit, register } = useForm();
-  const { loading, execApi, response } = useApi(
-    errorHandler,
-    "/api/1/session",
-    "post"
-  );
+  const { loading, execApi, response } = useApi(errorHandler);
 
   const onSubmit = data => {
-    execApi(data);
+    execApi(data, "/api/1/session", "post", response => {
+      if (response.user) {
+        successHandler.set({
+          message: "Session created"
+        });
+        sessionHandler.set();
+        window.localStorage.setItem("session:csrfToken", response.csrfToken);
+        Router.push("/dashboard");
+      }
+    });
   };
-
-  useEffect(() => {
-    if (response && response.user) {
-      successHandler.set({
-        message: "Session created"
-      });
-      sessionHandler.set();
-      window.localStorage.setItem("session:csrfToken", response.csrfToken);
-      Router.push("/dashboard");
-    }
-  });
 
   return (
     <>

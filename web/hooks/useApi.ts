@@ -4,11 +4,17 @@ import { ErrorHandler } from "./../utils/errorHandler";
 
 const client = new Client();
 
-export function useApi(errorHandler: ErrorHandler, path: string, verb = "get") {
+export function useApi(errorHandler: ErrorHandler) {
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  async function execApi(data = {}, setter?: Function, setterKey?: string) {
+  async function execApi(
+    data = {},
+    path: string,
+    verb = "get",
+    setter?: Function,
+    setterKey?: string
+  ) {
     let success = false;
 
     if (data === null || data === undefined) {
