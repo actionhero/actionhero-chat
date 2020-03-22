@@ -9,7 +9,7 @@ import {
   PrimaryKey,
   ForeignKey,
   BelongsTo,
-  BeforeCreate
+  BeforeCreate,
 } from "sequelize-typescript";
 import { User } from "./User";
 
@@ -54,7 +54,7 @@ export class Message extends Model<Message> {
       id: this.id,
       message: this.message,
       readAt: this.readAt,
-      createdAt: this.createdAt
+      createdAt: this.createdAt,
     };
   }
 

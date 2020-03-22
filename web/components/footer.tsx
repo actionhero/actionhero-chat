@@ -6,7 +6,7 @@ export default function footer({ errorHandler }) {
   const { loading, execApi } = useApi(errorHandler);
 
   useEffect(() => {
-    execApi(null, "/api/1/status", "get", response => {
+    execApi(null, "/api/1/status", "get", (response) => {
       setVersion(response.version);
     });
   }, []);

@@ -5,7 +5,7 @@ import { useApi } from "./../hooks/useApi";
 export default function SignOut({
   successHandler,
   errorHandler,
-  sessionHandler
+  sessionHandler,
 }) {
   const { loading, execApi } = useApi(errorHandler);
 

@@ -23,8 +23,8 @@ export class Client {
       method: verb.toLowerCase() as Method,
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
 
     data.csrfToken = this.csrfToken();

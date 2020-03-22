@@ -6,11 +6,11 @@ const winston = require("winston");
 // - https://github.com/winstonjs/winston/blob/master/docs/transports.md
 
 function buildConsoleLogger(level = "info") {
-  return function(config) {
+  return function (config) {
     return winston.createLogger({
       format: winston.format.combine(
         winston.format.colorize(),
-        winston.format.printf(info => {
+        winston.format.printf((info) => {
           return `${info.level}: ${
             info.message
           } ${stringifyExtraMessagePropertiesForConsole(info)}`;
@@ -18,7 +18,7 @@ function buildConsoleLogger(level = "info") {
       ),
       level,
       levels: winston.config.syslog.levels,
-      transports: [new winston.transports.Console()]
+      transports: [new winston.transports.Console()],
     });
   };
 }
@@ -47,7 +47,7 @@ function buildFileLogger(
   maxFiles = undefined,
   maxSize = 20480
 ) {
-  return function(config) {
+  return function (config) {
     const filename = `${path}/${config.process.id}-${config.process.env}.log`;
 
     return winston.createLogger({
@@ -61,22 +61,22 @@ function buildFileLogger(
         new winston.transports.File({
           filename,
           maxSize,
-          maxFiles
-        })
-      ]
+          maxFiles,
+        }),
+      ],
     });
   };
 }
 
 export const DEFAULT = {
-  logger: config => {
+  logger: (config) => {
     const loggers = [];
 
     if (cluster.isMaster) {
       loggers.push(buildConsoleLogger());
     }
 
-    config.general.paths.log.forEach(p => {
+    config.general.paths.log.forEach((p) => {
       loggers.push(buildFileLogger(p));
     });
 
@@ -84,21 +84,21 @@ export const DEFAULT = {
       loggers,
 
       // the maximum length of param to log (we will truncate)
-      maxLogStringLength: 100
+      maxLogStringLength: 100,
     };
-  }
+  },
 };
 
 export const test = {
-  logger: config => {
+  logger: (config) => {
     const loggers = [];
 
-    config.general.paths.log.forEach(p => {
+    config.general.paths.log.forEach((p) => {
       loggers.push(buildFileLogger(p, "debug", 1));
     });
 
     return {
-      loggers
+      loggers,
     };
-  }
+  },
 };

@@ -17,7 +17,7 @@ const authenticatedUserMiddleware: action.ActionMiddleware = {
   name: "authenticated-user",
   global: false,
   priority: 1000,
-  preProcessor: async data => {
+  preProcessor: async (data) => {
     const connection: Connection = data.connection;
 
     const sessionData = await api.session.load(connection);
@@ -30,7 +30,7 @@ const authenticatedUserMiddleware: action.ActionMiddleware = {
       throw new Error(connection.localize("CSRF error"));
     } else {
       const user = await User.findOne({
-        where: { id: sessionData.id }
+        where: { id: sessionData.id },
       });
 
       if (!user) {
@@ -40,7 +40,7 @@ const authenticatedUserMiddleware: action.ActionMiddleware = {
       data.session.data = sessionData;
       data.session.user = user;
     }
-  }
+  },
 };
 
 export class Session extends Initializer {
@@ -60,7 +60,7 @@ export class Session extends Initializer {
         return `${api.session.prefix}:${connection.fingerprint}`;
       },
 
-      load: async connection => {
+      load: async (connection) => {
         const key = api.session.key(connection);
         const data = await redis.get(key);
         if (!data) {
@@ -77,7 +77,7 @@ export class Session extends Initializer {
         const sessionData = {
           id: user.id,
           csrfToken: csrfToken,
-          createdAt: new Date().getTime()
+          createdAt: new Date().getTime(),
         };
 
         await user.update({ lastLoginAt: new Date() });
@@ -89,7 +89,7 @@ export class Session extends Initializer {
       destroy: async (connection: Connection) => {
         const key = api.session.key(connection);
         await redis.del(key);
-      }
+      },
     };
   }
 

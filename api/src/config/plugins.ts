@@ -11,7 +11,7 @@ export const DEFAULT = {
           "..",
           "node_modules",
           "ah-sequelize-plugin"
-        )
+        ),
       },
       "ah-next-plugin": {
         path: join(
@@ -21,8 +21,8 @@ export const DEFAULT = {
           "..",
           "node_modules",
           "ah-next-plugin"
-        )
-      }
+        ),
+      },
     };
-  }
+  },
 };

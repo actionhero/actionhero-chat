@@ -23,7 +23,7 @@ describe("session", () => {
         {
           email: "mario@example.com",
           password: "P@ssw0rd!",
-          userName: "mario"
+          userName: "mario",
         }
       );
 
@@ -40,7 +40,7 @@ describe("session", () => {
 
         connection.params = {
           email: "mario@example.com",
-          password: "P@ssw0rd!"
+          password: "P@ssw0rd!",
         };
         const signInResponse = await specHelper.runAction(
           "session:create",
@@ -55,7 +55,7 @@ describe("session", () => {
         const {
           csrfToken: newCsrfToken,
           user,
-          error
+          error,
         } = await specHelper.runAction("user:view", connection);
 
         expect(error).toBeUndefined();
@@ -66,13 +66,13 @@ describe("session", () => {
       test("can update user details", async () => {
         connection.params = {
           csrfToken,
-          userName: "Mario!!!"
+          userName: "Mario!!!",
         };
 
         const {
           csrfToken: newCsrfToken,
           user,
-          error
+          error,
         } = await specHelper.runAction("user:edit", connection);
 
         expect(error).toBeUndefined();

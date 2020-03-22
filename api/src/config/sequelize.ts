@@ -4,7 +4,7 @@ import { join } from "path";
 const databaseBaseName = "chat_sample_project";
 
 export const DEFAULT = {
-  sequelize: config => {
+  sequelize: (config) => {
     let dialect = "postgres";
     let host = process.env.DB_HOST || "127.0.0.1";
     let port = process.env.DB_PORT || "5432";
@@ -57,7 +57,7 @@ export const DEFAULT = {
       username: username,
       password: password,
       models: [join(__dirname, "..", "models")],
-      migrations: [join(__dirname, "..", "migrations")]
+      migrations: [join(__dirname, "..", "migrations")],
     };
-  }
+  },
 };

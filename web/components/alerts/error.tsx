@@ -20,7 +20,7 @@ class ErrorAlert extends Component<Props, State> {
       show: true,
       error: null,
       timer: null,
-      secondsToShow: 1000 * 5
+      secondsToShow: 1000 * 5,
     };
   }
 
@@ -45,7 +45,7 @@ class ErrorAlert extends Component<Props, State> {
     this.setState({
       error,
       timer,
-      show: true
+      show: true,
     });
   }
 

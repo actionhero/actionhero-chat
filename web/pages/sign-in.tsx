@@ -7,16 +7,16 @@ import { useApi } from "./../hooks/useApi";
 export default function SignIn({
   errorHandler,
   successHandler,
-  sessionHandler
+  sessionHandler,
 }) {
   const { handleSubmit, register } = useForm();
   const { loading, execApi, response } = useApi(errorHandler);
 
-  const onSubmit = data => {
-    execApi(data, "/api/1/session", "post", response => {
+  const onSubmit = (data) => {
+    execApi(data, "/api/1/session", "post", (response) => {
       if (response.user) {
         successHandler.set({
-          message: "Session created"
+          message: "Session created",
         });
         sessionHandler.set();
         window.localStorage.setItem("session:csrfToken", response.csrfToken);

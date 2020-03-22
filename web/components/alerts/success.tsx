@@ -20,7 +20,7 @@ class SuccessAlert extends Component<Props, State> {
       show: true,
       message: null,
       timer: null,
-      secondsToShow: 1000 * 5
+      secondsToShow: 1000 * 5,
     };
   }
 
@@ -45,7 +45,7 @@ class SuccessAlert extends Component<Props, State> {
     this.setState({
       message,
       timer,
-      show: true
+      show: true,
     });
   }
 

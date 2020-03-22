@@ -7,7 +7,7 @@ export default function Dashboard({ errorHandler }) {
   const { execApi } = useApi(errorHandler);
 
   useEffect(() => {
-    execApi(null, "/api/1/user", "get", response => {
+    execApi(null, "/api/1/user", "get", (response) => {
       if (response.user) {
         setUser(response.user);
       }

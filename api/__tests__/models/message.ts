@@ -20,12 +20,12 @@ describe("models/message", () => {
     beforeAll(async () => {
       mario = await User.create({
         userName: "Mario",
-        email: "mario@example.com"
+        email: "mario@example.com",
       });
 
       luigi = await User.create({
         userName: "Luigi",
-        email: "luigi@example.com"
+        email: "luigi@example.com",
       });
     });
 
@@ -38,7 +38,7 @@ describe("models/message", () => {
       const message = await Message.create({
         fromId: mario.id,
         toId: luigi.id,
-        message: "unread message"
+        message: "unread message",
       });
 
       expect(message.id).toBeTruthy();
@@ -49,7 +49,7 @@ describe("models/message", () => {
         Message.create({
           fromId: 999,
           toId: luigi.id,
-          message: "some message"
+          message: "some message",
         })
       ).rejects.toThrow(/sender not found/);
 
@@ -57,7 +57,7 @@ describe("models/message", () => {
         Message.create({
           fromId: mario.id,
           toId: 999,
-          message: "some message"
+          message: "some message",
         })
       ).rejects.toThrow(/recipient not found/);
     });

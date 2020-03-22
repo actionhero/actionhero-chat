@@ -20,7 +20,7 @@ class Layout extends Component<Props> {
       children,
       successHandler,
       errorHandler,
-      sessionHandler
+      sessionHandler,
     } = this.props;
 
     return (

@@ -10,13 +10,13 @@ export class UserCreate extends Action {
     this.inputs = {
       email: { required: true },
       password: { required: true },
-      userName: { required: true }
+      userName: { required: true },
     };
   }
 
   async run({ connection, params, response }) {
     const existingUserByEmail = await User.findOne({
-      where: { email: params.email }
+      where: { email: params.email },
     });
     if (existingUserByEmail) {
       throw new Error(
@@ -25,7 +25,7 @@ export class UserCreate extends Action {
     }
 
     const existingUserByUserName = await User.findOne({
-      where: { userName: params.userName }
+      where: { userName: params.userName },
     });
     if (existingUserByUserName) {
       throw new Error(connection.localize("User Name already registered."));
@@ -33,7 +33,7 @@ export class UserCreate extends Action {
 
     const user = await User.create({
       email: params.email,
-      userName: params.userName
+      userName: params.userName,
     });
 
     await user.updatePassword(params.password);
@@ -68,7 +68,7 @@ export class UserEdit extends Action {
     this.inputs = {
       email: { required: false },
       password: { required: false },
-      userName: { required: false }
+      userName: { required: false },
     };
   }
 

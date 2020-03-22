@@ -9,7 +9,7 @@ import {
   IsEmail,
   Length,
   PrimaryKey,
-  HasMany
+  HasMany,
 } from "sequelize-typescript";
 import bcrypt from "bcrypt";
 import { Message } from "./Message";
@@ -64,13 +64,13 @@ export class User extends Model<User> {
       "DISTINCT",
       {
         where: { toId: this.id },
-        plain: false
+        plain: false,
       }
     );
 
     const sentMessageUserIDs = await Message.aggregate("toId", "DISTINCT", {
       where: { fromId: this.id },
-      plain: false
+      plain: false,
     });
 
     const userIds = []
@@ -78,10 +78,10 @@ export class User extends Model<User> {
       .filter((value, index, self) => {
         return self.indexOf(value) === index;
       })
-      .map(item => item.DISTINCT);
+      .map((item) => item.DISTINCT);
 
     return User.findAll({
-      where: { id: { [Op.in]: userIds, [Op.ne]: this.id } }
+      where: { id: { [Op.in]: userIds, [Op.ne]: this.id } },
     });
   }
 
@@ -92,7 +92,7 @@ export class User extends Model<User> {
       email: this.email,
       lastLoginAt: this.lastLoginAt,
       createdAt: this.createdAt,
-      updatedAt: this.updatedAt
+      updatedAt: this.updatedAt,
     };
   }
 
