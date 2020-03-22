@@ -8,7 +8,7 @@ export class sessionCreate extends Action {
     this.description = "to create a session and sign in";
     this.inputs = {
       email: { required: true },
-      password: { required: true }
+      password: { required: true },
     };
     this.outputExample = {};
   }
@@ -17,7 +17,7 @@ export class sessionCreate extends Action {
     response.success = false;
 
     const user = await User.findOne({
-      where: { email: params.email }
+      where: { email: params.email },
     });
     if (!user) {
       throw new Error("user not found");

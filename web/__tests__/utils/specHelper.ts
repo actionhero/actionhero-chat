@@ -15,18 +15,18 @@ async function spawnPromise(
 
     const spawnProcess = spawn(command, args, {
       cwd,
-      env: Object.assign(extraEnv, env)
+      env: Object.assign(extraEnv, env),
     });
 
-    spawnProcess.stdout.on("data", data => {
+    spawnProcess.stdout.on("data", (data) => {
       stdout += String(data);
     });
 
-    spawnProcess.stderr.on("data", data => {
+    spawnProcess.stderr.on("data", (data) => {
       stderr += String(data);
     });
 
-    spawnProcess.on("close", code => {
+    spawnProcess.on("close", (code) => {
       console.log(stdout);
 
       if (code !== 0) {
@@ -43,8 +43,8 @@ async function httpGet(url: string) {
   return new Promise((resolve, reject) => {
     let data = "";
     http
-      .get(url, resp => {
-        resp.on("data", chunk => {
+      .get(url, (resp) => {
+        resp.on("data", (chunk) => {
           data += chunk;
         });
 
@@ -52,7 +52,7 @@ async function httpGet(url: string) {
           return resolve(JSON.parse(data));
         });
       })
-      .on("error", error => {
+      .on("error", (error) => {
         return reject(error);
       });
   });
@@ -67,7 +67,7 @@ const jestId = process.env.JEST_WORKER_ID || "1";
 let apiProcess;
 
 export async function sleep(timeMs = 1000) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, timeMs);
   });
 }
@@ -110,10 +110,10 @@ export async function prepareForIntegrationTest() {
         WEB_SERVER: true,
         PORT: port,
         WEB_URL: url,
-        JEST_WORKER_ID: undefined
+        JEST_WORKER_ID: undefined,
       },
       env
-    )
+    ),
   });
 
   // apiProcess.stdout.on("data", data => {
@@ -127,6 +127,6 @@ export async function prepareForIntegrationTest() {
 
   return {
     port,
-    url
+    url,
   };
 }

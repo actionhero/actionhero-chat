@@ -16,7 +16,7 @@ export default class GrouparooApp extends App {
     this.state = {
       successHandler,
       errorHandler,
-      sessionHandler
+      sessionHandler,
     };
   }
 

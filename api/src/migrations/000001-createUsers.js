@@ -1,50 +1,50 @@
 module.exports = {
-  up: async function(migration, DataTypes) {
+  up: async function (migration, DataTypes) {
     await migration.createTable(
       "users",
       {
         id: {
           type: DataTypes.INTEGER,
           primaryKey: true,
-          autoIncrement: true
+          autoIncrement: true,
         },
 
         userName: {
           type: DataTypes.STRING(191),
-          allowNull: false
+          allowNull: false,
         },
 
         email: {
           type: DataTypes.TEXT,
-          allowNull: false
+          allowNull: false,
         },
 
         passwordHash: {
           type: DataTypes.TEXT,
-          allowNull: true
+          allowNull: true,
         },
 
         lastLoginAt: DataTypes.DATE,
         createdAt: DataTypes.DATE,
-        updatedAt: DataTypes.DATE
+        updatedAt: DataTypes.DATE,
       },
       {
-        charset: "utf8mb4"
+        charset: "utf8mb4",
       }
     );
 
     await migration.addIndex("users", ["email"], {
       unique: true,
-      fields: "email"
+      fields: "email",
     });
 
     await migration.addIndex("users", ["userName"], {
       unique: true,
-      fields: "userName"
+      fields: "userName",
     });
   },
 
-  down: async function(migration) {
+  down: async function (migration) {
     await migration.dropTable("users");
-  }
+  },
 };

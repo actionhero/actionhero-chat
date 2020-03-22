@@ -9,7 +9,7 @@ export default class Index extends Component<Props> {
   static async getInitialProps() {
     const content = await require("./../../README.md");
     return {
-      content: content.default
+      content: content.default,
     };
   }
 

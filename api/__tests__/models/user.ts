@@ -25,7 +25,7 @@ describe("models/user", () => {
     test("a user can be created", async () => {
       user = new User({
         userName: "Mario",
-        email: "mario@example.com"
+        email: "mario@example.com",
       });
 
       await user.save();
@@ -38,13 +38,13 @@ describe("models/user", () => {
     test("users must have unique email addresses", async () => {
       user = await User.create({
         userName: "Mario",
-        email: "mario@example.com"
+        email: "mario@example.com",
       });
 
       await expect(
         User.create({
           userName: "Other Mario",
-          email: "mario@example.com"
+          email: "mario@example.com",
         })
       ).rejects.toThrow(/Validation error/);
     });
@@ -55,7 +55,7 @@ describe("models/user", () => {
     beforeAll(async () => {
       user = await User.create({
         userName: "Mario",
-        email: "mario@example.com"
+        email: "mario@example.com",
       });
 
       await user.updatePassword("Passw0rd!");
@@ -97,12 +97,12 @@ describe("models/user", () => {
     beforeAll(async () => {
       mario = await User.create({
         userName: "Mario",
-        email: "mario@example.com"
+        email: "mario@example.com",
       });
 
       luigi = await User.create({
         userName: "Luigi",
-        email: "luigi@example.com"
+        email: "luigi@example.com",
       });
     });
 
@@ -115,14 +115,14 @@ describe("models/user", () => {
       await Message.create({
         fromId: mario.id,
         toId: luigi.id,
-        message: "unread message"
+        message: "unread message",
       });
 
       await Message.create({
         fromId: mario.id,
         toId: luigi.id,
         message: "read message",
-        readAt: new Date()
+        readAt: new Date(),
       });
 
       const unreadMessages = await luigi.unreadMessages();
@@ -134,7 +134,7 @@ describe("models/user", () => {
       await Message.create({
         fromId: mario.id,
         toId: luigi.id,
-        message: "unread message"
+        message: "unread message",
       });
 
       const conversationUsers = await luigi.conversations();

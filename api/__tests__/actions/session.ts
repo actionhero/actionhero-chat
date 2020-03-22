@@ -19,7 +19,7 @@ describe("session", () => {
   beforeAll(async () => {
     peach = await User.create({
       email: "peach@example.com",
-      userName: "Peach"
+      userName: "Peach",
     });
 
     await peach.updatePassword("P@ssw0rd!");
@@ -31,7 +31,7 @@ describe("session", () => {
         "session:create",
         {
           email: "peach@example.com",
-          password: "P@ssw0rd!"
+          password: "P@ssw0rd!",
         }
       );
 
@@ -45,7 +45,7 @@ describe("session", () => {
         "session:create",
         {
           email: "fff@example.com",
-          password: "x"
+          password: "x",
         }
       );
 
@@ -59,7 +59,7 @@ describe("session", () => {
         "session:create",
         {
           email: "peach@example.com",
-          password: "x"
+          password: "x",
         }
       );
 
@@ -85,7 +85,7 @@ describe("session", () => {
       const {
         csrfToken: newCsrfToken,
         user,
-        error
+        error,
       } = await specHelper.runAction("session:view", connection);
 
       expect(error).toBeUndefined();
@@ -100,7 +100,7 @@ describe("session", () => {
         "session:create",
         {
           email: "peach@example.com",
-          password: "P@ssw0rd!"
+          password: "P@ssw0rd!",
         }
       );
 
@@ -109,9 +109,9 @@ describe("session", () => {
 
       const {
         successAgain = success,
-        errorAgain = error
+        errorAgain = error,
       } = await specHelper.runAction("session:destroy", {
-        csrfToken
+        csrfToken,
       });
 
       expect(errorAgain).toBeUndefined();

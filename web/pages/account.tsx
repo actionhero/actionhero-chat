@@ -9,18 +9,18 @@ export default function Dashboard({ successHandler, errorHandler }) {
   const { handleSubmit, register } = useForm();
 
   useEffect(() => {
-    execApi(null, "/api/1/user", "get", response => {
+    execApi(null, "/api/1/user", "get", (response) => {
       setUser(response.user);
     });
   }, []);
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     if (data.password === "") {
       delete data.password;
     }
 
     // const success = await setAccount(data, setUser, "user");
-    execApi(data, "/api/1/user", "put", response => {
+    execApi(data, "/api/1/user", "put", (response) => {
       if (response.user) {
         successHandler.set({ message: "Updated!" });
       }

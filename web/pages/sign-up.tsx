@@ -7,8 +7,8 @@ export default function SignUp({ errorHandler, successHandler }) {
   const { handleSubmit, register } = useForm();
   const { loading, execApi, response } = useApi(errorHandler);
 
-  const onSubmit = data => {
-    execApi(data, "/api/1/user", "post", response => {
+  const onSubmit = (data) => {
+    execApi(data, "/api/1/user", "post", (response) => {
       if (response.user) {
         successHandler.set({ message: "User created" });
         Router.push("/sign-in");
