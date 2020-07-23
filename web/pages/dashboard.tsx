@@ -19,7 +19,8 @@ export default function Dashboard({ errorHandler }) {
       <h1>Dashboard</h1>
 
       <Jumbotron>
-        <p>Hi, {user.userName}</p>
+        <p>Hi, {user.userName}!</p>
+        <p>You are signed in.</p>
       </Jumbotron>
     </>
   );

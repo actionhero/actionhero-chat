@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import Router from "next/router";
 import { useForm } from "react-hook-form";
@@ -18,8 +17,8 @@ export default function SignIn({
         successHandler.set({
           message: "Session created",
         });
-        sessionHandler.set();
         window.localStorage.setItem("session:csrfToken", response.csrfToken);
+        sessionHandler.set(response.user);
         Router.push("/dashboard");
       }
     });

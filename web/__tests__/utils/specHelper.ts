@@ -102,7 +102,7 @@ export async function prepareForIntegrationTest() {
   await spawnPromise("./bin/create_test_databases", [jestId], apiProjectPath);
 
   // start the api server
-  apiProcess = spawn("./../node_modules/.bin/actionhero", ["start"], {
+  apiProcess = spawn("node", ["./../api/dist/server.js"], {
     cwd: apiProjectPath,
     env: Object.assign(
       {
@@ -116,12 +116,12 @@ export async function prepareForIntegrationTest() {
     ),
   });
 
-  // apiProcess.stdout.on("data", data => {
-  //   console.log(data.toString());
-  // });
-  // apiProcess.stderr.on("data", data => {
-  //   console.log(data.toString());
-  // });
+  apiProcess.stdout.on("data", (data) => {
+    console.log(data.toString());
+  });
+  apiProcess.stderr.on("data", (data) => {
+    console.log(data.toString());
+  });
 
   await waitForAPI();
 
