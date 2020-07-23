@@ -5,6 +5,8 @@ import { ErrorHandler } from "./../utils/errorHandler";
 import { SuccessHandler } from "./../utils/successHandler";
 import { SessionHandler } from "./../utils/sessionHandler";
 
+import "swagger-ui/dist/swagger-ui.css";
+
 export default class GrouparooApp extends App {
   constructor(props) {
     super(props);

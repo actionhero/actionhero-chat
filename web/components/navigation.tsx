@@ -36,6 +36,10 @@ export default function navigation({ sessionHandler }) {
           <Nav.Link>Account</Nav.Link>
         </Link>
 
+        <Link href="/swagger" passHref>
+          <Nav.Link>Swagger API</Nav.Link>
+        </Link>
+
         <Link href="/sign-out" passHref>
           <Nav.Link>Sign Out</Nav.Link>
         </Link>
@@ -56,6 +60,10 @@ export default function navigation({ sessionHandler }) {
 
         <Link href="/sign-in" passHref>
           <Nav.Link>Sign In</Nav.Link>
+        </Link>
+
+        <Link href="/swagger" passHref>
+          <Nav.Link>Swagger API</Nav.Link>
         </Link>
       </Nav>
     </Navbar.Collapse>
