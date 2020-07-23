@@ -5,6 +5,7 @@ export const DEFAULT = {
         { path: "/:apiVersion/status", action: "status" },
         { path: "/:apiVersion/session", action: "session:view" },
         { path: "/:apiVersion/user", action: "user:view" },
+        { path: "/:apiVersion/swagger", action: "swagger" },
       ],
 
       post: [
