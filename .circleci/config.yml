@@ -20,11 +20,8 @@ jobs:
       - restore_cache:
           <<: *cache-options
       - run:
-          name: yarn-install
-          command: yarn install
-      - run:
-          name: yarn-build
-          command: yarn build
+          name: npm-install
+          command: npm install
       - save_cache:
           <<: *cache-options
           paths:
@@ -41,7 +38,7 @@ jobs:
           <<: *cache-options
       - run:
           name: linter-api
-          command: yarn run lint-api
+          command: npm run lint-api
 
   linter-web:
     docker:
@@ -52,7 +49,7 @@ jobs:
           <<: *cache-options
       - run:
           name: linter-web
-          command: yarn run lint-web
+          command: npm run lint-web
 
   test-api:
     docker:
@@ -69,8 +66,8 @@ jobs:
           name: display-node-version
           command: node --version
       - run:
-          name: display-yarn-version
-          command: yarn --version
+          name: display-npm-version
+          command: npm --version
       - run:
           name: install postgresql client
           command: sudo apt install -y postgresql-client
@@ -82,7 +79,7 @@ jobs:
           command: ./api/bin/create_test_databases
       - run:
           name: test
-          command: yarn run test-api
+          command: npm run test-api
           environment:
             NODE_ENV: test
 
@@ -92,6 +89,8 @@ jobs:
       - image: selenium/standalone-chrome:latest
       - image: redis:latest
       - image: circleci/postgres:9
+        environment:
+          POSTGRES_PASSWORD: password
     steps:
       - checkout
       - restore_cache:
@@ -100,8 +99,8 @@ jobs:
           name: display-node-version
           command: node --version
       - run:
-          name: display-yarn-version
-          command: yarn --version
+          name: display-npm-version
+          command: npm --version
       - run:
           name: install postgresql client
           command: sudo apt install -y postgresql-client
@@ -113,7 +112,7 @@ jobs:
           command: ./api/bin/create_test_databases
       - run:
           name: test
-          command: yarn run test-web
+          command: npm run test-web
           environment:
             NODE_ENV: test
             SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub

@@ -48,7 +48,7 @@ brew services start redis
 createdb chat_development
 
 #3
-yarn start
+npm start # or `npm run dev`
 
 ```
 
@@ -64,7 +64,7 @@ brew cask install chromedriver
 
 #3. Run the test suite
 # we will built the app, run linters, and test the web and api
-yarn test
+npm test
 ```
 
 ## Deployment
