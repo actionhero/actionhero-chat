@@ -3,7 +3,7 @@ import { User } from "./../models/User";
 import crypto from "crypto";
 
 interface SessionData {
-  guid: string;
+  id: number;
   csrfToken: string;
   createdAt: number;
 }
@@ -91,7 +91,7 @@ export class Session extends Initializer {
 
       create: async (connection: Connection, user: User) => {
         const key = api.session.key(connection);
-        const csrfToken = await randomBytesAsync();
+        const csrfToken = (await randomBytesAsync()).toString();
 
         const sessionData = {
           id: user.id,

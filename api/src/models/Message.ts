@@ -52,6 +52,8 @@ export class Message extends Model<Message> {
   async apiData() {
     return {
       id: this.id,
+      toId: this.toId,
+      fromId: this.fromId,
       message: this.message,
       readAt: this.readAt,
       createdAt: this.createdAt,
@@ -76,7 +78,7 @@ export class Message extends Model<Message> {
    * A helper to create a message between 2 users
    */
   static async store(from: User, to: User, message: string) {
-    return this.create({
+    return Message.create({
       fromId: from.id,
       toId: to.id,
       message,

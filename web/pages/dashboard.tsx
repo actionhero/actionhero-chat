@@ -2,14 +2,20 @@ import { useState, useEffect } from "react";
 import { Row, Col, Tab, ListGroup } from "react-bootstrap";
 import { useApi } from "./../hooks/useApi";
 import MessagesList from "./../components/messagesList";
+import SendMessage from "./../components/sendMessage";
 
 export default function Dashboard({ errorHandler }) {
   const { execApi } = useApi(errorHandler);
   const [conversations, setConversations] = useState<
     Array<{ userName: string; id: number }>
   >([]);
+  const [user, setUser] = useState<{ id: number; userName: string }>({
+    id: null,
+    userName: null,
+  });
 
   useEffect(() => {
+    loadUser();
     loadConversations();
   }, []);
 
@@ -18,9 +24,14 @@ export default function Dashboard({ errorHandler }) {
     setConversations(response?.conversations);
   }
 
+  async function loadUser() {
+    const response = await execApi(null, "/api/1/user", "get");
+    setUser(response?.user);
+  }
+
   return (
     <>
-      <h1>Dashboard</h1>
+      <h1>{user.userName}'s Messages</h1>
 
       <Tab.Container
         id="list-group"
@@ -47,6 +58,8 @@ export default function Dashboard({ errorHandler }) {
                   key={`#messages-${user.id}`}
                   eventKey={`#messages-${user.id}`}
                 >
+                  <SendMessage errorHandler={errorHandler} userId={user.id} />
+                  <hr />
                   <MessagesList errorHandler={errorHandler} userId={user.id} />
                 </Tab.Pane>
               ))}

@@ -11,7 +11,6 @@ import {
   Length,
   PrimaryKey,
   HasMany,
-  AfterCreate,
 } from "sequelize-typescript";
 import bcrypt from "bcrypt";
 import { api } from "actionhero";
@@ -56,11 +55,6 @@ export class User extends Model<User> {
 
   @HasMany(() => Message, "toId")
   receivedMessages: Message[];
-
-  @AfterCreate
-  static async welcomeUser(instance: User) {
-    await api.bot.welcome(instance);
-  }
 
   async messages(otherUser: User, limit = 1000, offset = 0) {
     return Message.findAll({

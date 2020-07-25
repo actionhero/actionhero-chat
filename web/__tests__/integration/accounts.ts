@@ -55,19 +55,10 @@ describe("integration/accounts", () => {
       const button = await browser.findElement(by.className("btn-primary"));
       await button.click();
 
-      // we should be taken to the dashboard
-      await browser.wait(
-        until.elementLocated(by.className("jumbotron")),
-        1000 * 4
-      );
+      await helper.sleep(1000);
 
       const header = await browser.findElement(by.tagName("h1")).getText();
-      expect(header).toContain("Dashboard");
-
-      const welcomeMessage = await browser
-        .findElement(by.tagName("p"))
-        .getText();
-      expect(welcomeMessage).toContain(`Hi, ${userName}`);
+      expect(header).toContain("Mario's Messages");
     },
     1000 * 20
   );
@@ -84,12 +75,10 @@ describe("integration/accounts", () => {
       await button.click();
 
       await browser.get(`${url}/dashboard`);
-      await helper.sleep(1 * 1000);
+      await helper.sleep(1000);
 
-      const welcomeMessage = await browser
-        .findElement(by.tagName("p"))
-        .getText();
-      expect(welcomeMessage).toContain("Hi, SuperMario!");
+      const header = await browser.findElement(by.tagName("h1")).getText();
+      expect(header).toContain("SuperMario!'s Messages");
     },
     1000 * 20
   );

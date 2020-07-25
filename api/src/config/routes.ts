@@ -14,6 +14,7 @@ export const DEFAULT = {
       post: [
         { path: "/:apiVersion/session", action: "session:create" },
         { path: "/:apiVersion/user", action: "user:create" },
+        { path: "/:apiVersion/message", action: "message:create" },
       ],
 
       put: [{ path: "/:apiVersion/user", action: "user:edit" }],

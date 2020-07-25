@@ -1,4 +1,4 @@
-import { Action } from "actionhero";
+import { Action, api } from "actionhero";
 import { User } from "./../models/User";
 
 export class UserCreate extends Action {
@@ -38,6 +38,7 @@ export class UserCreate extends Action {
 
     await user.updatePassword(params.password);
     response.user = await user.apiData(true);
+    await api.bot.welcome(user);
   }
 }
 
