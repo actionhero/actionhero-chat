@@ -7,6 +7,7 @@ export const DEFAULT = {
         { path: "/:apiVersion/session", action: "session:view" },
         { path: "/:apiVersion/user", action: "user:view" },
         { path: "/:apiVersion/user/conversations", action: "user:conversations" },
+        { path: "/:apiVersion/user/messages", action: "user:messages" },
         { path: "/:apiVersion/swagger", action: "swagger" },
       ],
 

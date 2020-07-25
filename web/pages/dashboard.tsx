@@ -4,10 +4,10 @@ import { useApi } from "./../hooks/useApi";
 import MessagesList from "./../components/messagesList";
 
 export default function Dashboard({ errorHandler }) {
+  const { execApi } = useApi(errorHandler);
   const [conversations, setConversations] = useState<
     Array<{ userName: string; id: number }>
   >([]);
-  const { execApi } = useApi(errorHandler);
 
   useEffect(() => {
     loadConversations();
