@@ -2,6 +2,25 @@ import { api, action, Initializer, Connection } from "actionhero";
 import { User } from "./../models/User";
 import crypto from "crypto";
 
+interface SessionData {
+  guid: string;
+  csrfToken: string;
+  createdAt: number;
+}
+
+declare module "actionhero" {
+  export interface Api {
+    session: {
+      prefix: string;
+      ttl: number;
+      key: (connection: Connection) => string;
+      load: (connection: Connection) => Promise<SessionData>;
+      destroy: (connection: Connection) => Promise<void>;
+      create: (connection: Connection, user: User) => Promise<SessionData>;
+    };
+  }
+}
+
 async function randomBytesAsync(bytes = 64) {
   return new Promise((resolve, reject) => {
     crypto.randomBytes(bytes, (error, buf) => {

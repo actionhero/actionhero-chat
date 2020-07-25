@@ -71,4 +71,15 @@ export class Message extends Model<Message> {
       throw new Error("recipient not found");
     }
   }
+
+  /**
+   * A helper to create a message between 2 users
+   */
+  static async store(from: User, to: User, message: string) {
+    return this.create({
+      fromId: from.id,
+      toId: to.id,
+      message,
+    });
+  }
 }

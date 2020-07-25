@@ -22,7 +22,7 @@ export default function SignUp({ errorHandler, successHandler }) {
 
       <Form id="form" onSubmit={handleSubmit(onSubmit)}>
         <Form.Group>
-          <Form.Label>User Name</Form.Label>
+          <Form.Label>User Name (will be public)</Form.Label>
           <Form.Control
             autoFocus
             name="userName"

@@ -15,16 +15,15 @@ export function useApi(errorHandler: ErrorHandler) {
     setter?: Function,
     setterKey?: string
   ) {
-    let success = false;
-
     if (data === null || data === undefined) {
       data = {};
     }
 
     setLoading(true);
 
+    let apiResponse: { [key: string]: any };
     try {
-      const apiResponse = await client.action(verb, path, data);
+      apiResponse = await client.action(verb, path, data);
       setResponse(apiResponse);
 
       if (setter) {
@@ -34,10 +33,7 @@ export function useApi(errorHandler: ErrorHandler) {
           setter(apiResponse);
         }
       }
-
-      success = true;
     } catch (error) {
-      success = false;
       if (errorHandler) {
         errorHandler.set({ error: error });
       } else {
@@ -45,7 +41,7 @@ export function useApi(errorHandler: ErrorHandler) {
       }
     } finally {
       setLoading(false);
-      return success;
+      return apiResponse;
     }
   }
 
