@@ -1,8 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useApi } from "./../hooks/useApi";
 import { ListGroup, Image } from "react-bootstrap";
 
-export default function MessagesList({ errorHandler, userId }) {
+export default function MessagesList({
+  errorHandler,
+  userId,
+  incomingMessages,
+}) {
   const { execApi } = useApi(errorHandler);
   const [messages, setMessages] = useState<
     Array<{
@@ -13,6 +17,7 @@ export default function MessagesList({ errorHandler, userId }) {
       toId: number;
     }>
   >([]);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     loadMessages();
@@ -40,17 +45,28 @@ export default function MessagesList({ errorHandler, userId }) {
     }
   }
 
+  const combinedMessages = messages.concat(
+    incomingMessages.filter((m) => m.toId === userId || m.fromId === userId)
+  );
+
+  useEffect(() => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages.length, combinedMessages.length]);
+
   return (
-    <ListGroup variant="flush">
-      {messages.map((message) => (
-        <ListGroup.Item
-          key={`message-${message.id}`}
-          variant={message.fromId === userId ? "success" : "info"}
-        >
-          <strong>{renderMessage(message.message)}</strong>
-          <br /> <em>{new Date(message.createdAt).toLocaleString()}</em>
-        </ListGroup.Item>
-      ))}
-    </ListGroup>
+    <div style={{ maxHeight: 700, overflow: "auto" }}>
+      <ListGroup variant="flush">
+        {combinedMessages.map((message) => (
+          <ListGroup.Item
+            key={`message-${message.id}`}
+            variant={message.fromId === userId ? "success" : "info"}
+          >
+            <strong>{renderMessage(message.message)}</strong>
+            <br /> <em>{new Date(message.createdAt).toLocaleString()}</em>
+          </ListGroup.Item>
+        ))}
+        <div ref={messagesEndRef} />
+      </ListGroup>
+    </div>
   );
 }

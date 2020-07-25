@@ -1,4 +1,4 @@
-import { api, action, Initializer, Connection } from "actionhero";
+import { api, action, Initializer, Connection, chatRoom } from "actionhero";
 import { User } from "./../models/User";
 import crypto from "crypto";
 
@@ -62,6 +62,23 @@ const authenticatedUserMiddleware: action.ActionMiddleware = {
   },
 };
 
+const modelChatRoomMiddleware: chatRoom.ChatMiddleware = {
+  name: "model chat room middleware",
+  join: async (connection: Connection, room: string) => {
+    if (!room.match(/^model:/)) {
+      return;
+    }
+
+    const userId = parseInt(room.split(":")[1]);
+    const sessionData = await api.session.load(connection);
+    if (!sessionData) {
+      throw new Error("Please log in to continue");
+    } else if (userId !== sessionData.id) {
+      throw new Error("That is not for you");
+    }
+  },
+};
+
 export class Session extends Initializer {
   constructor() {
     super();
@@ -114,6 +131,7 @@ export class Session extends Initializer {
 
   async start() {
     action.addMiddleware(authenticatedUserMiddleware);
+    chatRoom.addMiddleware(modelChatRoomMiddleware);
     api.params.globalSafeParams.push("csrfToken");
   }
 }

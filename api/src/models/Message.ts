@@ -10,8 +10,10 @@ import {
   ForeignKey,
   BelongsTo,
   BeforeCreate,
+  AfterCreate,
 } from "sequelize-typescript";
 import { User } from "./User";
+import { chatRoom } from "actionhero";
 
 @Table({ tableName: "messages", paranoid: false })
 export class Message extends Model<Message> {
@@ -72,6 +74,17 @@ export class Message extends Model<Message> {
     if (!recipient) {
       throw new Error("recipient not found");
     }
+  }
+
+  @AfterCreate
+  static async broadcast(instance: Message) {
+    const apiData = await instance.apiData();
+
+    if (await chatRoom.exists(`user:${instance.toId}`))
+      chatRoom.broadcast({}, `user:${instance.toId}`, { message: apiData });
+
+    if (await chatRoom.exists(`user:${instance.fromId}`))
+      chatRoom.broadcast({}, `user:${instance.fromId}`, { message: apiData });
   }
 
   /**

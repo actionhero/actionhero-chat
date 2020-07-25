@@ -28,7 +28,8 @@ class Layout extends Component<Props> {
         <Head>
           <link rel="stylesheet" href="/css/bootstrap.min.css" />
           <title>Actionhero Chat</title>
-          <meta name="application-name" content={`Actionhero Chat`} />
+          <meta name="application-name" content={`Actionhero Chat`} />{" "}
+          <script src="/public/javascript/ActionheroWebsocketClient.min.js" />
         </Head>
 
         <Container>

@@ -3,6 +3,7 @@ import { Row, Col, Tab, ListGroup } from "react-bootstrap";
 import { useApi } from "./../hooks/useApi";
 import MessagesList from "./../components/messagesList";
 import SendMessage from "./../components/sendMessage";
+import { useChatStream } from "../hooks/useChatStream";
 
 export default function Dashboard({ errorHandler }) {
   const { execApi } = useApi(errorHandler);
@@ -13,11 +14,14 @@ export default function Dashboard({ errorHandler }) {
     id: null,
     userName: null,
   });
+  const [incomingMessages, setIncomingMessages] = useState([]);
 
   useEffect(() => {
     loadUser();
     loadConversations();
   }, []);
+
+  useChatStream(user.id, handleMessage);
 
   async function loadConversations() {
     const response = await execApi(null, "/api/1/user/conversations", "get");
@@ -27,6 +31,12 @@ export default function Dashboard({ errorHandler }) {
   async function loadUser() {
     const response = await execApi(null, "/api/1/user", "get");
     setUser(response?.user);
+  }
+
+  function handleMessage({ message }) {
+    const _messages = [...incomingMessages];
+    _messages.push(message);
+    setIncomingMessages(_messages);
   }
 
   return (
@@ -58,9 +68,13 @@ export default function Dashboard({ errorHandler }) {
                   key={`#messages-${user.id}`}
                   eventKey={`#messages-${user.id}`}
                 >
-                  <SendMessage errorHandler={errorHandler} userId={user.id} />
+                  <MessagesList
+                    errorHandler={errorHandler}
+                    userId={user.id}
+                    incomingMessages={incomingMessages}
+                  />
                   <hr />
-                  <MessagesList errorHandler={errorHandler} userId={user.id} />
+                  <SendMessage errorHandler={errorHandler} userId={user.id} />
                 </Tab.Pane>
               ))}
             </Tab.Content>
