@@ -1,4 +1,4 @@
-import { Action, api } from "actionhero";
+import { Action, api, chatRoom } from "actionhero";
 import { User } from "../models/User";
 
 export class sessionCreate extends Action {
@@ -32,6 +32,9 @@ export class sessionCreate extends Action {
     response.user = await user.apiData();
     response.success = true;
     response.csrfToken = sessionData.csrfToken;
+
+    const room = `user:${user.id}`;
+    if (!(await chatRoom.exists(room))) chatRoom.add(room);
   }
 }
 

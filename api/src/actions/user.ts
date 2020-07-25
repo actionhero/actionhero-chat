@@ -1,4 +1,4 @@
-import { Action } from "actionhero";
+import { Action, api } from "actionhero";
 import { User } from "./../models/User";
 
 export class UserCreate extends Action {
@@ -37,7 +37,8 @@ export class UserCreate extends Action {
     });
 
     await user.updatePassword(params.password);
-    response.user = await user.apiData();
+    response.user = await user.apiData(true);
+    await api.bot.welcome(user);
   }
 }
 
@@ -52,8 +53,8 @@ export class UserView extends Action {
   }
 
   async run({ session, response }) {
-    const { user } = session;
-    response.user = await user.apiData();
+    const { user }: { user: User } = session;
+    response.user = await user.apiData(true);
   }
 }
 
@@ -73,13 +74,70 @@ export class UserEdit extends Action {
   }
 
   async run({ params, session, response }) {
-    const { user } = session;
+    const { user }: { user: User } = session;
     await user.update(params);
 
     if (params.password) {
       await user.updatePassword(params.password);
     }
 
-    response.user = await user.apiData();
+    response.user = await user.apiData(true);
+  }
+}
+
+export class UserConversations extends Action {
+  constructor() {
+    super();
+    this.name = "user:conversations";
+    this.description = "get the list of other users you are chatting with";
+    this.outputExample = {};
+    this.inputs = {};
+    this.middleware = ["authenticated-user"];
+    this.inputs = {};
+  }
+
+  async run({ session, response }) {
+    const { user }: { user: User } = session;
+    const conversations = await user.conversations();
+
+    response.conversations = await Promise.all(
+      conversations.map((user) => user.apiData())
+    );
+    response.unreadConversations = await user.unreadConversations();
+  }
+}
+
+export class UserMessages extends Action {
+  constructor() {
+    super();
+    this.name = "user:messages";
+    this.description = "get the messages between you and another user";
+    this.outputExample = {};
+    this.inputs = {};
+    this.middleware = ["authenticated-user"];
+    this.inputs = {
+      userId: { required: true },
+      limit: { required: false, default: 1000 },
+      offset: { required: false, default: 0 },
+    };
+  }
+
+  async run({ params, session, response }) {
+    const { user }: { user: User } = session;
+    const otherUser = await User.findOne({
+      where: { id: params.userId },
+    });
+
+    if (!otherUser) throw new Error("user not found");
+
+    const messages = await user.messages(
+      otherUser,
+      params.limit,
+      params.offset
+    );
+
+    response.messages = await Promise.all(
+      messages.map((message) => message.apiData())
+    );
   }
 }

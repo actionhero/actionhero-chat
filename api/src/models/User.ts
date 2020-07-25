@@ -6,12 +6,14 @@ import {
   UpdatedAt,
   AllowNull,
   AutoIncrement,
+  Unique,
   IsEmail,
   Length,
   PrimaryKey,
   HasMany,
 } from "sequelize-typescript";
 import bcrypt from "bcrypt";
+import { api } from "actionhero";
 import { Message } from "./Message";
 import { Op } from "sequelize";
 
@@ -26,11 +28,13 @@ export class User extends Model<User> {
 
   @AllowNull(false)
   @Length({ min: 3 })
+  @Unique
   @Column
   userName: string;
 
   @AllowNull(false)
   @IsEmail
+  @Unique
   @Column
   email: string;
 
@@ -52,8 +56,41 @@ export class User extends Model<User> {
   @HasMany(() => Message, "toId")
   receivedMessages: Message[];
 
-  async unreadMessages() {
-    return this.$get("receivedMessages", { where: { readAt: null } });
+  async messages(otherUser: User, limit = 1000, offset = 0) {
+    return Message.findAll({
+      where: {
+        [Op.or]: [
+          {
+            [Op.and]: {
+              toId: this.id,
+              fromId: otherUser.id,
+            },
+          },
+          {
+            [Op.and]: {
+              fromId: this.id,
+              toId: otherUser.id,
+            },
+          },
+        ],
+      },
+      order: [["createdAt", "asc"]],
+      limit,
+      offset,
+    });
+  }
+
+  async unreadConversations() {
+    const users: Array<{ DISTINCT: number }> = await Message.aggregate(
+      "fromId",
+      "DISTINCT",
+      {
+        where: { toId: this.id, readAt: null },
+        plain: false,
+      }
+    );
+
+    return users.map((u) => u.DISTINCT);
   }
 
   async conversations() {
@@ -82,14 +119,15 @@ export class User extends Model<User> {
 
     return User.findAll({
       where: { id: { [Op.in]: userIds, [Op.ne]: this.id } },
+      order: [["userName", "asc"]],
     });
   }
 
-  async apiData() {
+  async apiData(includeEmail = false) {
     return {
       id: this.id,
       userName: this.userName,
-      email: this.email,
+      email: includeEmail ? this.email : undefined,
       lastLoginAt: this.lastLoginAt,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,

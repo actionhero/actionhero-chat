@@ -33,7 +33,7 @@ export default function Dashboard({ successHandler, errorHandler }) {
 
       <Form id="form" onSubmit={handleSubmit(onSubmit)}>
         <Form.Group>
-          <Form.Label>User Name</Form.Label>
+          <Form.Label>User Name (public)</Form.Label>
           <Form.Control
             name="userName"
             required

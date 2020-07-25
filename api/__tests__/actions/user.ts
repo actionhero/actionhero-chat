@@ -1,6 +1,7 @@
 import { specHelper } from "actionhero";
 import { User } from "./../../src/models/User";
 import { Process } from "actionhero";
+import { Op } from "sequelize";
 
 const actionhero = new Process();
 
@@ -9,7 +10,7 @@ describe("session", () => {
 
   beforeAll(async () => {
     await actionhero.start();
-    await User.destroy({ truncate: true });
+    await User.destroy({ where: { userName: { [Op.ne]: "actionhero-bot" } } });
   });
 
   afterAll(async () => {

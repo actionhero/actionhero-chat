@@ -1,6 +1,25 @@
-import { api, action, Initializer, Connection } from "actionhero";
+import { api, action, Initializer, Connection, chatRoom } from "actionhero";
 import { User } from "./../models/User";
 import crypto from "crypto";
+
+interface SessionData {
+  id: number;
+  csrfToken: string;
+  createdAt: number;
+}
+
+declare module "actionhero" {
+  export interface Api {
+    session: {
+      prefix: string;
+      ttl: number;
+      key: (connection: Connection) => string;
+      load: (connection: Connection) => Promise<SessionData>;
+      destroy: (connection: Connection) => Promise<void>;
+      create: (connection: Connection, user: User) => Promise<SessionData>;
+    };
+  }
+}
 
 async function randomBytesAsync(bytes = 64) {
   return new Promise((resolve, reject) => {
@@ -43,6 +62,23 @@ const authenticatedUserMiddleware: action.ActionMiddleware = {
   },
 };
 
+const modelChatRoomMiddleware: chatRoom.ChatMiddleware = {
+  name: "model chat room middleware",
+  join: async (connection: Connection, room: string) => {
+    if (!room.match(/^model:/)) {
+      return;
+    }
+
+    const userId = parseInt(room.split(":")[1]);
+    const sessionData = await api.session.load(connection);
+    if (!sessionData) {
+      throw new Error("Please log in to continue");
+    } else if (userId !== sessionData.id) {
+      throw new Error("That is not for you");
+    }
+  },
+};
+
 export class Session extends Initializer {
   constructor() {
     super();
@@ -72,7 +108,7 @@ export class Session extends Initializer {
 
       create: async (connection: Connection, user: User) => {
         const key = api.session.key(connection);
-        const csrfToken = await randomBytesAsync();
+        const csrfToken = (await randomBytesAsync()).toString();
 
         const sessionData = {
           id: user.id,
@@ -95,6 +131,7 @@ export class Session extends Initializer {
 
   async start() {
     action.addMiddleware(authenticatedUserMiddleware);
+    chatRoom.addMiddleware(modelChatRoomMiddleware);
     api.params.globalSafeParams.push("csrfToken");
   }
 }
