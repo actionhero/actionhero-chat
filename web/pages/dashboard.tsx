@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Row, Col, Tab, ListGroup } from "react-bootstrap";
+import { Row, Col, Tab, ListGroup, Alert } from "react-bootstrap";
 import { useApi } from "./../hooks/useApi";
 import MessagesList from "./../components/messagesList";
 import SendMessage from "./../components/sendMessage";
@@ -15,10 +15,12 @@ export default function Dashboard({ errorHandler }) {
     userName: null,
   });
   const [incomingMessages, setIncomingMessages] = useState([]);
+  const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
     loadUser();
     loadConversations();
+    if (globalThis?.location?.hash.length === 0) setShowWelcome(true);
   }, []);
 
   useChatStream(user.id, handleMessage);
@@ -46,6 +48,7 @@ export default function Dashboard({ errorHandler }) {
       <Tab.Container
         id="list-group"
         defaultActiveKey={globalThis?.location?.hash}
+        onSelect={() => setShowWelcome(false)}
       >
         <Row>
           <Col sm={3}>
@@ -78,6 +81,11 @@ export default function Dashboard({ errorHandler }) {
                 </Tab.Pane>
               ))}
             </Tab.Content>
+            {showWelcome ? (
+              <Alert variant="info">
+                ◀️ Choose a Conversation to get Started!
+              </Alert>
+            ) : null}
           </Col>
         </Row>
       </Tab.Container>
