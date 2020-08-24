@@ -11,7 +11,7 @@
     "prepare": "npm run prepare-api && npm run prepare-web",
     "prepare-api": "cd api && rm -rf dist && tsc --declaration",
     "prepare-web": "cd web && next build",
-    "start": "cd api && ./dist/server.js",
+    "start": "cd api && node ./dist/server.js",
     "dev": "cd api && ts-node-dev --transpile-only --ignore-watch=\"../web\" --no-deps --notify=false ./src/server.ts",
     "test": "npm run test-api && npm run test-web",
     "pretest": "npm run lint && npm run prepare",
