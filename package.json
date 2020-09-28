@@ -55,7 +55,7 @@
     "enzyme-adapter-react-16": "^1.15.5",
     "jest": "26.4.2",
     "jest-environment-webdriver": "^0.2.0",
-    "prettier": "^2.1.1",
+    "prettier": "^2.1.2",
     "ts-jest": "^26.4.0",
     "ts-node-dev": "latest",
     "typescript": "^4.0.3"
