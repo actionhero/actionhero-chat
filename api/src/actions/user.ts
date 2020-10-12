@@ -14,7 +14,7 @@ export class UserCreate extends Action {
     };
   }
 
-  async run({ connection, params, response }) {
+  async run({ connection, params }) {
     const existingUserByEmail = await User.findOne({
       where: { email: params.email },
     });
@@ -37,8 +37,10 @@ export class UserCreate extends Action {
     });
 
     await user.updatePassword(params.password);
-    response.user = await user.apiData(true);
+
     await api.bot.welcome(user);
+
+    return { user: await user.apiData(true) };
   }
 }
 
@@ -52,9 +54,9 @@ export class UserView extends Action {
     this.middleware = ["authenticated-user"];
   }
 
-  async run({ session, response }) {
+  async run({ session }) {
     const { user }: { user: User } = session;
-    response.user = await user.apiData(true);
+    return { user: await user.apiData(true) };
   }
 }
 
@@ -73,7 +75,7 @@ export class UserEdit extends Action {
     };
   }
 
-  async run({ params, session, response }) {
+  async run({ params, session }) {
     const { user }: { user: User } = session;
     await user.update(params);
 
@@ -81,7 +83,7 @@ export class UserEdit extends Action {
       await user.updatePassword(params.password);
     }
 
-    response.user = await user.apiData(true);
+    return { user: await user.apiData(true) };
   }
 }
 
@@ -96,14 +98,16 @@ export class UserConversations extends Action {
     this.inputs = {};
   }
 
-  async run({ session, response }) {
+  async run({ session }) {
     const { user }: { user: User } = session;
     const conversations = await user.conversations();
 
-    response.conversations = await Promise.all(
-      conversations.map((user) => user.apiData())
-    );
-    response.unreadConversations = await user.unreadConversations();
+    return {
+      conversations: await Promise.all(
+        conversations.map((user) => user.apiData())
+      ),
+      unreadConversations: await user.unreadConversations(),
+    };
   }
 }
 
@@ -122,7 +126,7 @@ export class UserMessages extends Action {
     };
   }
 
-  async run({ params, session, response }) {
+  async run({ params, session }) {
     const { user }: { user: User } = session;
     const otherUser = await User.findOne({
       where: { id: params.userId },
@@ -136,8 +140,8 @@ export class UserMessages extends Action {
       params.offset
     );
 
-    response.messages = await Promise.all(
-      messages.map((message) => message.apiData())
-    );
+    return {
+      messages: await Promise.all(messages.map((message) => message.apiData())),
+    };
   }
 }

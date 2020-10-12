@@ -50,7 +50,6 @@ describe("session", () => {
       );
 
       expect(error).toMatch(/user not found/);
-      expect(success).toEqual(false);
       expect(user).toBeUndefined();
     });
 
@@ -64,7 +63,6 @@ describe("session", () => {
       );
 
       expect(error).toMatch(/password does not match/);
-      expect(success).toEqual(false);
       expect(user).toBeUndefined();
     });
   });

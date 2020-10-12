@@ -13,9 +13,7 @@ export class sessionCreate extends Action {
     this.outputExample = {};
   }
 
-  async run({ connection, response, params }) {
-    response.success = false;
-
+  async run({ connection, params }) {
     const user = await User.findOne({
       where: { email: params.email },
     });
@@ -29,12 +27,15 @@ export class sessionCreate extends Action {
     }
 
     const sessionData = await api.session.create(connection, user);
-    response.user = await user.apiData();
-    response.success = true;
-    response.csrfToken = sessionData.csrfToken;
 
     const room = `user:${user.id}`;
     if (!(await chatRoom.exists(room))) chatRoom.add(room);
+
+    return {
+      user: await user.apiData(),
+      success: true,
+      csrfToken: sessionData.csrfToken,
+    };
   }
 }
 

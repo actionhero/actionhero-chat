@@ -1,9 +1,9 @@
 import { Action, config, api } from "actionhero";
-import path from "path";
-import fs from "fs";
+import * as fs from "fs";
+import * as path from "path";
 
 const SWAGGER_VERSION = "2.0";
-const API_VERSION = 1;
+const API_VERSION = ""; // if you need a prefix to your API routes, like `v1`
 const parentPackageJSON = JSON.parse(
   fs
     .readFileSync(path.join(__dirname, "..", "..", "..", "package.json"))
@@ -18,7 +18,7 @@ const responses = {
     description: "Invalid input",
   },
   404: {
-    description: "Not Fount",
+    description: "Not Found",
   },
   422: {
     description: "Missing or invalid params",
@@ -32,7 +32,7 @@ export class Swagger extends Action {
   constructor() {
     super();
     this.name = "swagger";
-    this.description = "return API documentation";
+    this.description = "return API documentation in the OpenAPI specification";
     this.outputExample = {};
   }
 
@@ -51,16 +51,37 @@ export class Swagger extends Action {
   }
 
   buildSwaggerPaths() {
-    const swaggerPaths = {};
+    const swaggerPaths: {
+      [path: string]: {
+        [method: string]: {
+          tags: string[];
+          summary: string;
+          consumes: string[];
+          produces: string[];
+          parameters: Array<{
+            in: string;
+            name: string;
+            type: string;
+            required: boolean;
+            default: string | number | boolean;
+          }>;
+          responses: typeof responses;
+          security: string[];
+        };
+      };
+    } = {};
     const tags = [];
 
     Object.keys(api.routes.routes).map((method) => {
       api.routes.routes[method].map((route) => {
         const action = this.getLatestAction(route);
+        if (!action) {
+          return;
+        }
 
         const tag = action.name.split(":")[0];
         const formattedPath = route.path
-          .replace("/:apiVersion", "")
+          .replace("/v:apiVersion", "")
           .replace(/\/:(\w*)/, "/{$1}");
 
         swaggerPaths[formattedPath] = swaggerPaths[formattedPath] || {};
@@ -84,16 +105,17 @@ export class Swagger extends Action {
                     : false,
                 default:
                   action.inputs[inputName].default !== null &&
-                  action.inputs[inputName].default !== undefined &&
-                  inputName !== "order" // this is a bit too complex to serialize
+                  action.inputs[inputName].default !== undefined
                     ? typeof action.inputs[inputName].default === "object"
                       ? JSON.stringify(action.inputs[inputName].default)
+                      : typeof action.inputs[inputName].default === "function"
+                      ? action.inputs[inputName].default()
                       : `${action.inputs[inputName].default}`
                     : undefined,
               };
             }),
           responses,
-          security: [{ CSRFTokenAndSessionCookie: [] }],
+          security: [],
         };
 
         if (!tags.includes(tag)) {
@@ -105,10 +127,10 @@ export class Swagger extends Action {
     return { swaggerPaths, tags };
   }
 
-  async run(data) {
+  async run() {
     const { swaggerPaths, tags } = this.buildSwaggerPaths();
 
-    data.response = {
+    return {
       swagger: SWAGGER_VERSION,
       info: {
         description: parentPackageJSON.description,
@@ -116,28 +138,22 @@ export class Swagger extends Action {
         title: parentPackageJSON.name,
         license: { name: parentPackageJSON.license },
       },
-      host: (
-        config.servers.web.allowedRequestHosts[0] ||
-        `localhost:${config.servers.web.port}`
-      )
-        .replace("http://", "")
-        .replace("https://", ""),
-      basePath: `/${API_VERSION}`,
+      host: config.servers.web.allowedRequestHosts[0]
+        ? config.servers.web.allowedRequestHosts[0]
+            .replace("https://", "")
+            .replace("http://", "")
+        : `localhost:${config.servers.web.port}`,
+      basePath: `/api/${API_VERSION}`,
       // tags: tags.map((tag) => {
       //   return { name: tag, description: `topic: ${tag}` };
       // }),
-      schemes:
-        config.servers.web.allowedRequestHosts[0]?.indexOf("https") === 0
-          ? ["https", "http"]
-          : ["http"],
+      schemes: config.servers.web.allowedRequestHosts[0]
+        ? ["https", "http"]
+        : ["http"],
       paths: swaggerPaths,
 
       securityDefinitions: {
-        CSRFTokenAndSessionCookie: {
-          type: "apiKey",
-          name: "csrfToken",
-          in: "query",
-        },
+        // TODO (custom)?
       },
       externalDocs: {
         description: "Learn more about Actionhero",
