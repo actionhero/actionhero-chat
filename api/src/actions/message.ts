@@ -16,7 +16,7 @@ export class MessageCreate extends Action {
     };
   }
 
-  async run({ params, session, response }) {
+  async run({ params, session }) {
     const { user }: { user: User } = session;
     const otherUser = await User.findOne({
       where: { id: params.userId },
@@ -30,6 +30,6 @@ export class MessageCreate extends Action {
       message: params.message,
     });
 
-    response.message = await message.apiData();
+    return { message: await message.apiData() };
   }
 }
