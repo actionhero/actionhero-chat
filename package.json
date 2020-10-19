@@ -40,7 +40,7 @@
     "reflect-metadata": "^0.1.13",
     "sequelize": "^5.22.3",
     "sequelize-typescript": "^1.1.0",
-    "swagger-ui": "^3.35.1",
+    "swagger-ui": "^3.35.2",
     "winston": "^3.3.3",
     "ws": "^7.3.1"
   },
