@@ -8,13 +8,13 @@
     "node": ">=12.0.0 <15.0.0"
   },
   "scripts": {
-    "prepare": "npm run prepare-api && npm run prepare-web",
-    "prepare-api": "cd api && rm -rf dist && tsc --declaration",
-    "prepare-web": "cd web && next build",
+    "build": "npm run build-api && npm run build-web",
+    "build-api": "cd api && rm -rf dist && tsc --declaration",
+    "build-web": "cd web && next build",
     "start": "cd api && node ./dist/server.js",
     "dev": "cd api && ts-node-dev  ./src/server.ts",
     "test": "npm run test-api && npm run test-web",
-    "pretest": "npm run lint && npm run prepare",
+    "pretest": "npm run lint && npm run build",
     "test-api": "cd api && jest --maxWorkers 5",
     "test-web": "cd web && jest --maxWorkers 5",
     "lint": "npm run lint-api && npm run lint-web",
