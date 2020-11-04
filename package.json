@@ -5,7 +5,7 @@
   "description": "An example actionhero application using sequelzie and next.js",
   "version": "0.1.0",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=12.0.0 <15.0.0"
   },
   "scripts": {
     "prepare": "npm run prepare-api && npm run prepare-web",
