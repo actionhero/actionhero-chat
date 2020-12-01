@@ -45,15 +45,13 @@ export const useChatStream = (userId: number, messageCallback: Function) => {
     client.on("api", function (message) {
       alert("[websocket] " + JSON.stringify(message));
     });
-    client.on("say", function ({
-      context,
-      from,
-      room: messageRoom,
-      sentAt,
-      message,
-    }) {
-      if (messageRoom === `user:${userId}` && enabled) messageCallback(message);
-    });
+    client.on(
+      "say",
+      function ({ context, from, room: messageRoom, sentAt, message }) {
+        if (messageRoom === `user:${userId}` && enabled)
+          messageCallback(message);
+      }
+    );
 
     client.connect(function (error, details) {
       if (error) {
