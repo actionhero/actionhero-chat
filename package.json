@@ -22,7 +22,7 @@
     "lint-web": "cd web && prettier --check pages hooks client components __tests__"
   },
   "dependencies": {
-    "actionhero": "^24.0.2",
+    "actionhero": "^24.0.4",
     "ah-next-plugin": "^0.4.0",
     "ah-sequelize-plugin": "^2.2.4",
     "axios": "^0.21.0",
