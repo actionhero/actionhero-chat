@@ -58,7 +58,7 @@
     "jest-environment-webdriver": "^0.2.0",
     "prettier": "^2.2.1",
     "ts-jest": "^26.4.4",
-    "ts-node-dev": "1.1.1",
+    "ts-node-dev": "1.0.0",
     "typescript": "^4.1.3"
   }
 }
