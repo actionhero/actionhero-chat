@@ -12,7 +12,7 @@
     "build-api": "cd api && rm -rf dist && tsc --declaration",
     "build-web": "cd web && next build",
     "start": "cd api && node ./dist/server.js",
-    "dev": "cd api && ts-node-dev  ./src/server.ts",
+    "dev": "cd api && ts-node-dev --ignore-watch ../web ./src/server.ts",
     "test": "npm run test-api && npm run test-web",
     "pretest": "npm run lint && npm run build",
     "test-api": "cd api && jest --maxWorkers 5",
@@ -58,7 +58,7 @@
     "jest-environment-webdriver": "^0.2.0",
     "prettier": "^2.2.1",
     "ts-jest": "^26.4.4",
-    "ts-node-dev": "1.0.0",
+    "ts-node-dev": "1.1.1",
     "typescript": "^4.1.3"
   }
 }
