@@ -34,7 +34,7 @@ async function spawnPromise(
         return reject(new Error("something is wrong with the process"));
       }
 
-      resolve();
+      resolve(null);
     });
   });
 }
@@ -106,7 +106,7 @@ export async function prepareForIntegrationTest() {
     cwd: apiProjectPath,
     env: Object.assign(
       {
-        ACTIONHERO_TEST_FILE_EXTENSION: "js", // ensure that the test server doesn't run typescript files
+        ACTIONHERO_TYPESCRIPT_MODE: "false", // ensure that the test server doesn't run typescript files
         WEB_SERVER: true,
         PORT: port,
         WEB_URL: url,
