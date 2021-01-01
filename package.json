@@ -27,7 +27,7 @@
     "ah-sequelize-plugin": "^2.2.4",
     "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
-    "ioredis": "^4.19.2",
+    "ioredis": "^4.19.4",
     "next": "^10.0.3",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
