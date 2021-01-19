@@ -18,7 +18,7 @@ import { Message } from "./Message";
 import { Op } from "sequelize";
 
 @Table({ tableName: "users", paranoid: false })
-export class User extends Model<User> {
+export class User extends Model {
   saltRounds = 10;
 
   @PrimaryKey

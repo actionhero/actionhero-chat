@@ -16,7 +16,7 @@ import { User } from "./User";
 import { chatRoom } from "actionhero";
 
 @Table({ tableName: "messages", paranoid: false })
-export class Message extends Model<Message> {
+export class Message extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column
