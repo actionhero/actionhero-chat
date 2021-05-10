@@ -105,12 +105,10 @@ describe("session", () => {
       expect(error).toBeUndefined();
       expect(success).toEqual(true);
 
-      const {
-        successAgain = success,
-        errorAgain = error,
-      } = await specHelper.runAction("session:destroy", {
-        csrfToken,
-      });
+      const { successAgain = success, errorAgain = error } =
+        await specHelper.runAction("session:destroy", {
+          csrfToken,
+        });
 
       expect(errorAgain).toBeUndefined();
       expect(successAgain).toEqual(true);
