@@ -16,12 +16,8 @@ interface Props {
 
 class Layout extends Component<Props> {
   render() {
-    const {
-      children,
-      successHandler,
-      errorHandler,
-      sessionHandler,
-    } = this.props;
+    const { children, successHandler, errorHandler, sessionHandler } =
+      this.props;
 
     return (
       <>
