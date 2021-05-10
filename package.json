@@ -23,7 +23,7 @@
     "nuke": "rm -rf node_modules && rm -rf api/dist && rm -rf web/.next"
   },
   "dependencies": {
-    "actionhero": "^25.0.14",
+    "actionhero": "^25.0.16",
     "ah-next-plugin": "^0.5.2",
     "ah-sequelize-plugin": "^3.0.3",
     "axios": "^0.21.1",
