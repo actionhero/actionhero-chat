@@ -25,7 +25,7 @@
   "dependencies": {
     "actionhero": "^25.0.14",
     "ah-next-plugin": "^0.5.2",
-    "ah-sequelize-plugin": "^3.0.3",
+    "ah-sequelize-plugin": "^3.0.4",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "ioredis": "^4.27.1",
