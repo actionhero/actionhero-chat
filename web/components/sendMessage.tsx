@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useApi } from "./../hooks/useApi";
 import { useForm } from "react-hook-form";
 import { Form, Button } from "react-bootstrap";
@@ -23,6 +22,7 @@ export default function SendMessage({ errorHandler, userId }) {
             name="message"
             required
             type="text"
+            defaultValue=""
             ref={register}
           />
         </Form.Group>

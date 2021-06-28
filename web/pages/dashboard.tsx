@@ -36,9 +36,7 @@ export default function Dashboard({ errorHandler }) {
   }
 
   function handleMessage({ message }) {
-    const _messages = [...incomingMessages];
-    _messages.push(message);
-    setIncomingMessages(_messages);
+    setIncomingMessages(_messages => _messages.concat([message]));
   }
 
   return (
