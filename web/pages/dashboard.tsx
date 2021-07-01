@@ -36,7 +36,7 @@ export default function Dashboard({ errorHandler }) {
   }
 
   function handleMessage({ message }) {
-    setIncomingMessages(_messages => _messages.concat([message]));
+    setIncomingMessages((_messages) => _messages.concat([message]));
   }
 
   return (
