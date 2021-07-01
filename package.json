@@ -31,7 +31,7 @@
     "ioredis": "^4.27.6",
     "next": "10.2.3",
     "pg": "^8.6.0",
-    "pg-hstore": "^2.3.3",
+    "pg-hstore": "^2.3.4",
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.0",
