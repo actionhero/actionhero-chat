@@ -48,7 +48,7 @@
   "devDependencies": {
     "@types/bluebird": "^3.5.36",
     "@types/faker": "^5.5.8",
-    "@types/jest": "^27.0.1",
+    "@types/jest": "^27.0.2",
     "@types/node": "^16.7.10",
     "@types/react-dom": "^17.0.9",
     "@types/validator": "^13.6.3",
