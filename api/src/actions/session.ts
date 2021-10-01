@@ -48,10 +48,12 @@ export class sessionView extends Action {
     this.outputExample = {};
   }
 
-  async run({ connection, response, session: { user } }) {
+  async run({ connection, session: { user } }) {
     const sessionData = await api.session.load(connection);
-    response.csrfToken = sessionData.csrfToken;
-    response.user = await user.apiData();
+    return {
+      csrfToken: sessionData.csrfToken,
+      user: await user.apiData(),
+    };
   }
 }
 
@@ -63,9 +65,8 @@ export class sessionDestroy extends Action {
     this.outputExample = {};
   }
 
-  async run({ connection, response }) {
-    response.success = false;
+  async run({ connection }) {
     await api.session.destroy(connection);
-    response.success = true;
+    return { success: true };
   }
 }

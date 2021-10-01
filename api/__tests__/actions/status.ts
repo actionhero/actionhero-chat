@@ -1,4 +1,6 @@
 import { Process, env, id, specHelper } from "actionhero";
+import { Status } from "../../src/actions/status";
+
 const actionhero = new Process();
 let api;
 
@@ -18,7 +20,7 @@ describe("actionhero Tests", () => {
   });
 
   test("can retrieve server uptime via the status action", async () => {
-    const { uptime } = await specHelper.runAction("status");
+    const { uptime } = await specHelper.runAction<Status>("status");
     expect(uptime).toBeGreaterThan(0);
   });
 });

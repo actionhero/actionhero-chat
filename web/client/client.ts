@@ -54,10 +54,10 @@ export class Client {
 
     try {
       const response = await Axios(options);
-      if (response.data && response.data.error) {
-        throw response.data.error.message
-          ? response.data.error.message
-          : response.data.error;
+      if (response.data && response.data["error"]) {
+        throw response.data["error"]["message"]
+          ? response.data["error"]["message"]
+          : response.data["error"];
       }
       return response.data;
     } catch (error) {
