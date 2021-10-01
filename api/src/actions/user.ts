@@ -19,16 +19,14 @@ export class UserCreate extends Action {
       where: { email: params.email },
     });
     if (existingUserByEmail) {
-      throw new Error(
-        connection.localize("Email already registered. Sign in?")
-      );
+      throw new Error("Email already registered. Sign in?");
     }
 
     const existingUserByUserName = await User.findOne({
       where: { userName: params.userName },
     });
     if (existingUserByUserName) {
-      throw new Error(connection.localize("User Name already registered."));
+      throw new Error("User Name already registered.");
     }
 
     const user = await User.create({

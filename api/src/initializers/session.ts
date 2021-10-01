@@ -41,19 +41,19 @@ const authenticatedUserMiddleware: action.ActionMiddleware = {
 
     const sessionData = await api.session.load(connection);
     if (!sessionData) {
-      throw new Error(connection.localize("Please log in to continue"));
+      throw new Error("Please log in to continue");
     } else if (
       !data.params.csrfToken ||
       data.params.csrfToken !== sessionData.csrfToken
     ) {
-      throw new Error(connection.localize("CSRF error"));
+      throw new Error("CSRF error");
     } else {
       const user = await User.findOne({
         where: { id: sessionData.id },
       });
 
       if (!user) {
-        throw new Error(connection.localize("User not found"));
+        throw new Error("User not found");
       }
 
       data.session.data = sessionData;

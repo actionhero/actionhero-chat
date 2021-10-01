@@ -1,5 +1,7 @@
 import { specHelper } from "actionhero";
 import { User } from "./../../src/models/User";
+import { UserCreate, UserEdit, UserView } from "./../../src/actions/user";
+import { sessionCreate } from "./../../src/actions/session";
 import { Process } from "actionhero";
 import { Op } from "sequelize";
 
@@ -19,7 +21,7 @@ describe("session", () => {
 
   describe("user creation and log in", () => {
     test("can create a new user", async () => {
-      const { success, user, error } = await specHelper.runAction(
+      const { user, error } = await specHelper.runAction<UserCreate>(
         "user:create",
         {
           email: "mario@example.com",
@@ -43,7 +45,7 @@ describe("session", () => {
           email: "mario@example.com",
           password: "P@ssw0rd!",
         };
-        const signInResponse = await specHelper.runAction(
+        const signInResponse = await specHelper.runAction<sessionCreate>(
           "session:create",
           connection
         );
@@ -53,11 +55,10 @@ describe("session", () => {
       test("can log in and view user details", async () => {
         connection.params = { csrfToken };
 
-        const {
-          csrfToken: newCsrfToken,
-          user,
-          error,
-        } = await specHelper.runAction("user:view", connection);
+        const { user, error } = await specHelper.runAction<UserView>(
+          "user:view",
+          connection
+        );
 
         expect(error).toBeUndefined();
         expect(user.id).toBeTruthy();
@@ -70,11 +71,10 @@ describe("session", () => {
           userName: "Mario!!!",
         };
 
-        const {
-          csrfToken: newCsrfToken,
-          user,
-          error,
-        } = await specHelper.runAction("user:edit", connection);
+        const { user, error } = await specHelper.runAction<UserEdit>(
+          "user:edit",
+          connection
+        );
 
         expect(error).toBeUndefined();
         expect(user.id).toBeTruthy();
