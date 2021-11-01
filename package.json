@@ -43,7 +43,7 @@
     "sequelize-typescript": "^2.1.0",
     "swagger-ui": "^3.52.3",
     "winston": "^3.3.3",
-    "ws": "^8.2.2"
+    "ws": "^8.2.3"
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.36",
