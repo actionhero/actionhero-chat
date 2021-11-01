@@ -51,7 +51,7 @@
     "@types/jest": "^27.0.2",
     "@types/node": "^16.10.2",
     "@types/react-dom": "^17.0.9",
-    "@types/validator": "^13.6.3",
+    "@types/validator": "^13.6.6",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "jest": "27.2.4",
