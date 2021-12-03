@@ -1,7 +1,16 @@
+import { PluginConfig } from "actionhero";
 import { join } from "path";
 
-export const DEFAULT = {
-  plugins: () => {
+const namespace = "plugins";
+
+declare module "actionhero" {
+  export interface ActionheroConfigInterface {
+    [namespace]: ReturnType<typeof DEFAULT[typeof namespace]>;
+  }
+}
+
+export const DEFAULT: { [namespace]: () => PluginConfig } = {
+  [namespace]: () => {
     return {
       "ah-sequelize-plugin": {
         path: join(

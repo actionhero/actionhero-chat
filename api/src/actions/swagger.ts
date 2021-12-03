@@ -1,10 +1,11 @@
-import { Action, config, api } from "actionhero";
+import { Action, config, api, RouteType } from "actionhero";
 import * as fs from "fs";
 import * as path from "path";
+import { PackageJson } from "type-fest";
 
 const SWAGGER_VERSION = "2.0";
 const API_VERSION = ""; // if you need a prefix to your API routes, like `v1`
-const parentPackageJSON = JSON.parse(
+const parentPackageJSON: PackageJson = JSON.parse(
   fs
     .readFileSync(path.join(__dirname, "..", "..", "..", "package.json"))
     .toString()
@@ -36,8 +37,8 @@ export class Swagger extends Action {
     this.outputExample = {};
   }
 
-  getLatestAction(route) {
-    let matchedAction;
+  getLatestAction(route: RouteType) {
+    let matchedAction: Action;
     Object.keys(api.actions.actions).forEach((actionName) => {
       Object.keys(api.actions.actions[actionName]).forEach((version) => {
         const action = api.actions.actions[actionName][version];
@@ -70,18 +71,20 @@ export class Swagger extends Action {
         };
       };
     } = {};
-    const tags = [];
+    const tags: string[] = [];
 
-    Object.keys(api.routes.routes).map((method) => {
-      api.routes.routes[method].map((route) => {
+    for (const [method, routes] of Object.entries(api.routes.routes)) {
+      routes.map((route) => {
         const action = this.getLatestAction(route);
-        if (!action) {
-          return;
-        }
+        if (!action) return;
 
         const tag = action.name.split(":")[0];
         const formattedPath = route.path
           .replace("/v:apiVersion", "")
+          .replace(/\/:(\w*)/, "/{$1}")
+          .replace(/\/:(\w*)/, "/{$1}")
+          .replace(/\/:(\w*)/, "/{$1}")
+          .replace(/\/:(\w*)/, "/{$1}")
           .replace(/\/:(\w*)/, "/{$1}");
 
         swaggerPaths[formattedPath] = swaggerPaths[formattedPath] || {};
@@ -122,7 +125,7 @@ export class Swagger extends Action {
           tags.push(tag);
         }
       });
-    });
+    }
 
     return { swaggerPaths, tags };
   }
@@ -138,18 +141,15 @@ export class Swagger extends Action {
         title: parentPackageJSON.name,
         license: { name: parentPackageJSON.license },
       },
-      host: config.servers.web.allowedRequestHosts[0]
-        ? config.servers.web.allowedRequestHosts[0]
-            .replace("https://", "")
-            .replace("http://", "")
-        : `localhost:${config.servers.web.port}`,
+      host:
+        config.web.allowedRequestHosts[0]
+          ?.replace("https://", "")
+          .replace("https://", "") ?? `localhost:${config.web.port}`,
       basePath: `/api/${API_VERSION}`,
       // tags: tags.map((tag) => {
       //   return { name: tag, description: `topic: ${tag}` };
       // }),
-      schemes: config.servers.web.allowedRequestHosts[0]
-        ? ["https", "http"]
-        : ["http"],
+      schemes: config.web.allowedRequestHosts[0] ? ["https", "http"] : ["http"],
       paths: swaggerPaths,
 
       securityDefinitions: {
