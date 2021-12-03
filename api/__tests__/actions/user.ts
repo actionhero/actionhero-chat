@@ -8,8 +8,6 @@ import { Op } from "sequelize";
 const actionhero = new Process();
 
 describe("session", () => {
-  let mario: User;
-
   beforeAll(async () => {
     await actionhero.start();
     await User.destroy({ where: { userName: { [Op.ne]: "actionhero-bot" } } });
