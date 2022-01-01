@@ -3,8 +3,7 @@
  */
 
 import * as helper from "../utils/specHelper";
-import { User } from "./../../../api/src/models/User";
-let url;
+let url: string;
 
 declare var browser: any;
 declare var by: any;
