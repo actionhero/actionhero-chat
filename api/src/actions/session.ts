@@ -1,7 +1,7 @@
-import { Action, api, chatRoom } from "actionhero";
+import { Action, api, chatRoom, Connection, ParamsFrom } from "actionhero";
 import { User } from "../models/User";
 
-export class sessionCreate extends Action {
+export class SessionCreate extends Action {
   constructor() {
     super();
     this.name = "session:create";
@@ -13,7 +13,13 @@ export class sessionCreate extends Action {
     this.outputExample = {};
   }
 
-  async run({ connection, params }) {
+  async run({
+    connection,
+    params,
+  }: {
+    connection: Connection;
+    params: ParamsFrom<SessionCreate>;
+  }) {
     const user = await User.findOne({
       where: { email: params.email },
     });
@@ -39,7 +45,7 @@ export class sessionCreate extends Action {
   }
 }
 
-export class sessionView extends Action {
+export class SessionView extends Action {
   constructor() {
     super();
     this.name = "session:view";
@@ -48,16 +54,22 @@ export class sessionView extends Action {
     this.outputExample = {};
   }
 
-  async run({ connection, session: { user } }) {
+  async run({
+    connection,
+    session,
+  }: {
+    connection: Connection;
+    session: { user: User };
+  }) {
     const sessionData = await api.session.load(connection);
     return {
       csrfToken: sessionData.csrfToken,
-      user: await user.apiData(),
+      user: await session.user.apiData(),
     };
   }
 }
 
-export class sessionDestroy extends Action {
+export class SessionDestroy extends Action {
   constructor() {
     super();
     this.name = "session:destroy";
@@ -65,7 +77,7 @@ export class sessionDestroy extends Action {
     this.outputExample = {};
   }
 
-  async run({ connection }) {
+  async run({ connection }: { connection: Connection }) {
     await api.session.destroy(connection);
     return { success: true };
   }

@@ -1,6 +1,11 @@
-module.exports = {
-  up: async function (migration, DataTypes) {
-    await migration.createTable("users", {
+import Sequelize from "sequelize";
+
+export default {
+  up: async (
+    queryInterface: Sequelize.QueryInterface,
+    DataTypes: typeof Sequelize
+  ) => {
+    await queryInterface.createTable("users", {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -27,18 +32,18 @@ module.exports = {
       updatedAt: DataTypes.DATE,
     });
 
-    await migration.addIndex("users", ["email"], {
+    await queryInterface.addIndex("users", ["email"], {
       unique: true,
-      fields: "email",
+      fields: ["email"],
     });
 
-    await migration.addIndex("users", ["userName"], {
+    await queryInterface.addIndex("users", ["userName"], {
       unique: true,
-      fields: "userName",
+      fields: ["userName"],
     });
   },
 
-  down: async function (migration) {
-    await migration.dropTable("users");
+  down: async (queryInterface: Sequelize.QueryInterface) => {
+    await queryInterface.dropTable("users");
   },
 };

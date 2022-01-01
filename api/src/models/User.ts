@@ -13,9 +13,8 @@ import {
   HasMany,
 } from "sequelize-typescript";
 import bcrypt from "bcrypt";
-import { api } from "actionhero";
 import { Message } from "./Message";
-import { Op } from "sequelize";
+import { Op, Transaction } from "sequelize";
 
 @Table({ tableName: "users", paranoid: false })
 export class User extends Model {
@@ -134,7 +133,7 @@ export class User extends Model {
     };
   }
 
-  async updatePassword(password: string, transaction = undefined) {
+  async updatePassword(password: string, transaction?: Transaction) {
     this.passwordHash = await bcrypt.hash(password, this.saltRounds);
     await this.save({ transaction });
   }

@@ -1,6 +1,11 @@
-module.exports = {
-  up: async function (migration, DataTypes) {
-    await migration.createTable("messages", {
+import Sequelize from "sequelize";
+
+export default {
+  up: async (
+    queryInterface: Sequelize.QueryInterface,
+    DataTypes: typeof Sequelize
+  ) => {
+    await queryInterface.createTable("messages", {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -28,7 +33,7 @@ module.exports = {
     });
   },
 
-  down: async function (migration) {
-    await migration.dropTable("messages");
+  down: async (queryInterface: Sequelize.QueryInterface) => {
+    await queryInterface.dropTable("messages");
   },
 };

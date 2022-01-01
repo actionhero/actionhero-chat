@@ -2,9 +2,9 @@ import { specHelper } from "actionhero";
 import { User } from "./../../src/models/User";
 import { Process } from "actionhero";
 import {
-  sessionCreate,
-  sessionDestroy,
-  sessionView,
+  SessionCreate,
+  SessionDestroy,
+  SessionView,
 } from "../../src/actions/session";
 
 const actionhero = new Process();
@@ -33,7 +33,7 @@ describe("session", () => {
   describe("session:create", () => {
     test("can log in", async () => {
       const { success, user, error } =
-        await specHelper.runAction<sessionCreate>("session:create", {
+        await specHelper.runAction<SessionCreate>("session:create", {
           email: "peach@example.com",
           password: "P@ssw0rd!",
         });
@@ -45,7 +45,7 @@ describe("session", () => {
 
     test("cannot log in with unknown user", async () => {
       const { success, user, error } =
-        await specHelper.runAction<sessionCreate>("session:create", {
+        await specHelper.runAction<SessionCreate>("session:create", {
           email: "fff@example.com",
           password: "x",
         });
@@ -56,7 +56,7 @@ describe("session", () => {
 
     test("cannot log in with bad password", async () => {
       const { success, user, error } =
-        await specHelper.runAction<sessionCreate>("session:create", {
+        await specHelper.runAction<SessionCreate>("session:create", {
           email: "peach@example.com",
           password: "x",
         });
@@ -70,7 +70,7 @@ describe("session", () => {
     test("can view session details", async () => {
       const connection = await specHelper.buildConnection();
       connection.params = { email: "peach@example.com", password: "P@ssw0rd!" };
-      const signInResponse = await specHelper.runAction<sessionCreate>(
+      const signInResponse = await specHelper.runAction<SessionCreate>(
         "session:create",
         connection
       );
@@ -83,7 +83,7 @@ describe("session", () => {
         csrfToken: newCsrfToken,
         user,
         error,
-      } = await specHelper.runAction<sessionView>("session:view", connection);
+      } = await specHelper.runAction<SessionView>("session:view", connection);
 
       expect(error).toBeUndefined();
       expect(newCsrfToken).toBe(csrfToken);
@@ -94,7 +94,7 @@ describe("session", () => {
   describe("session:destroy", () => {
     test("can log out", async () => {
       const { success, error, csrfToken } =
-        await specHelper.runAction<sessionCreate>("session:create", {
+        await specHelper.runAction<SessionCreate>("session:create", {
           email: "peach@example.com",
           password: "P@ssw0rd!",
         });
@@ -103,7 +103,7 @@ describe("session", () => {
       expect(success).toEqual(true);
 
       const { success: successAgain, error: errorAgain } =
-        await specHelper.runAction<sessionDestroy>("session:destroy", {
+        await specHelper.runAction<SessionDestroy>("session:destroy", {
           csrfToken,
         });
 

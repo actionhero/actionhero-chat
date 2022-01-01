@@ -15,8 +15,8 @@ describe("models/message", () => {
   });
 
   describe("general", () => {
-    let mario;
-    let luigi;
+    let mario: User;
+    let luigi: User;
     beforeAll(async () => {
       mario = await User.create({
         userName: "Mario",

@@ -1,22 +1,24 @@
-import { Action } from "actionhero";
+import { Action, ParamsFrom } from "actionhero";
 import { User } from "../models/User";
 import { Message } from "../models/Message";
 
 export class MessageCreate extends Action {
-  constructor() {
-    super();
-    this.name = "message:create";
-    this.description = "send a message";
-    this.outputExample = {};
-    this.inputs = {};
-    this.middleware = ["authenticated-user"];
-    this.inputs = {
-      userId: { required: true },
-      message: { required: true },
-    };
-  }
+  name = "message:create";
+  description = "send a message";
+  outputExample = {};
+  middleware = ["authenticated-user"];
+  inputs = {
+    userId: { required: true },
+    message: { required: true },
+  };
 
-  async run({ params, session }) {
+  async run({
+    params,
+    session,
+  }: {
+    params: ParamsFrom<MessageCreate>;
+    session: { user: User };
+  }) {
     const { user }: { user: User } = session;
     const otherUser = await User.findOne({
       where: { id: params.userId },

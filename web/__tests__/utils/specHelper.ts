@@ -95,8 +95,6 @@ export async function waitForAPI(count = 0) {
 }
 
 export async function prepareForIntegrationTest() {
-  const env = process.env;
-
   // re-create the test database
   await spawnPromise("./bin/drop_test_databases", [jestId], apiProjectPath);
   await spawnPromise("./bin/create_test_databases", [jestId], apiProjectPath);
@@ -104,16 +102,14 @@ export async function prepareForIntegrationTest() {
   // start the api server
   apiProcess = spawn("node", ["./../api/dist/server.js"], {
     cwd: apiProjectPath,
-    env: Object.assign(
-      {
-        ACTIONHERO_TYPESCRIPT_MODE: "false", // ensure that the test server doesn't run typescript files
-        WEB_SERVER: true,
-        PORT: port,
-        WEB_URL: url,
-        JEST_WORKER_ID: undefined,
-      },
-      env
-    ),
+    env: {
+      ...process.env,
+      WEB_SERVER: "true",
+      PORT: `${port}`,
+      WEB_URL: url,
+      JEST_WORKER_ID: jestId,
+      ACTIONHERO_TYPESCRIPT_MODE: "false",
+    },
   });
 
   apiProcess.stdout.on("data", (data) => {

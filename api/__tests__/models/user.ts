@@ -51,7 +51,7 @@ describe("models/user", () => {
   });
 
   describe("passwords", () => {
-    let user;
+    let user: User;
     beforeAll(async () => {
       user = await User.create({
         userName: "Mario",
@@ -92,8 +92,8 @@ describe("models/user", () => {
   });
 
   describe("messages", () => {
-    let mario;
-    let luigi;
+    let mario: User;
+    let luigi: User;
     beforeAll(async () => {
       mario = await User.create({
         userName: "Mario",

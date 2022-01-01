@@ -1,20 +1,17 @@
-import { Action, api } from "actionhero";
+import { Action, api, ParamsFrom } from "actionhero";
 import { User } from "./../models/User";
 
 export class UserCreate extends Action {
-  constructor() {
-    super();
-    this.name = "user:create";
-    this.description = "create a user";
-    this.outputExample = {};
-    this.inputs = {
-      email: { required: true },
-      password: { required: true },
-      userName: { required: true },
-    };
-  }
+  name = "user:create";
+  description = "create a user";
+  outputExample = {};
+  inputs = {
+    email: { required: true },
+    password: { required: true },
+    userName: { required: true },
+  };
 
-  async run({ connection, params }) {
+  async run({ params }: { params: ParamsFrom<UserCreate> }) {
     const existingUserByEmail = await User.findOne({
       where: { email: params.email },
     });
@@ -43,38 +40,37 @@ export class UserCreate extends Action {
 }
 
 export class UserView extends Action {
-  constructor() {
-    super();
-    this.name = "user:view";
-    this.description = "view your user information";
-    this.outputExample = {};
-    this.inputs = {};
-    this.middleware = ["authenticated-user"];
-  }
+  name = "user:view";
+  description = "view your user information";
+  outputExample = {};
+  inputs = {};
+  middleware = ["authenticated-user"];
 
-  async run({ session }) {
-    const { user }: { user: User } = session;
+  async run({ session }: { session: { user: User } }) {
+    const { user } = session;
     return { user: await user.apiData(true) };
   }
 }
 
 export class UserEdit extends Action {
-  constructor() {
-    super();
-    this.name = "user:edit";
-    this.description = "edit your user information";
-    this.outputExample = {};
-    this.inputs = {};
-    this.middleware = ["authenticated-user"];
-    this.inputs = {
-      email: { required: false },
-      password: { required: false },
-      userName: { required: false },
-    };
-  }
+  name = "user:edit";
+  description = "edit your user information";
+  outputExample = {};
+  middleware = ["authenticated-user"];
+  inputs = {
+    email: { required: false },
+    password: { required: false },
+    userName: { required: false },
+  };
 
-  async run({ params, session }) {
-    const { user }: { user: User } = session;
+  async run({
+    params,
+    session,
+  }: {
+    params: ParamsFrom<UserEdit>;
+    session: { user: User };
+  }) {
+    const { user } = session;
     await user.update(params);
 
     if (params.password) {
@@ -86,18 +82,13 @@ export class UserEdit extends Action {
 }
 
 export class UserConversations extends Action {
-  constructor() {
-    super();
-    this.name = "user:conversations";
-    this.description = "get the list of other users you are chatting with";
-    this.outputExample = {};
-    this.inputs = {};
-    this.middleware = ["authenticated-user"];
-    this.inputs = {};
-  }
+  name = "user:conversations";
+  description = "get the list of other users you are chatting with";
+  outputExample = {};
+  middleware = ["authenticated-user"];
 
-  async run({ session }) {
-    const { user }: { user: User } = session;
+  async run({ session }: { session: { user: User } }) {
+    const { user } = session;
     const conversations = await user.conversations();
 
     return {
@@ -110,22 +101,24 @@ export class UserConversations extends Action {
 }
 
 export class UserMessages extends Action {
-  constructor() {
-    super();
-    this.name = "user:messages";
-    this.description = "get the messages between you and another user";
-    this.outputExample = {};
-    this.inputs = {};
-    this.middleware = ["authenticated-user"];
-    this.inputs = {
-      userId: { required: true },
-      limit: { required: false, default: 1000 },
-      offset: { required: false, default: 0 },
-    };
-  }
+  name = "user:messages";
+  description = "get the messages between you and another user";
+  outputExample = {};
+  middleware = ["authenticated-user"];
+  inputs = {
+    userId: { required: true, formatter: parseInt },
+    limit: { required: false, default: 1000, formatter: parseInt },
+    offset: { required: false, default: 0, formatter: parseInt },
+  };
 
-  async run({ params, session }) {
-    const { user }: { user: User } = session;
+  async run({
+    params,
+    session,
+  }: {
+    params: ParamsFrom<UserMessages>;
+    session: { user: User };
+  }) {
+    const { user } = session;
     const otherUser = await User.findOne({
       where: { id: params.userId },
     });

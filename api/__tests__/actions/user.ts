@@ -1,7 +1,7 @@
-import { specHelper } from "actionhero";
+import { Connection, specHelper } from "actionhero";
 import { User } from "./../../src/models/User";
 import { UserCreate, UserEdit, UserView } from "./../../src/actions/user";
-import { sessionCreate } from "./../../src/actions/session";
+import { SessionCreate } from "./../../src/actions/session";
 import { Process } from "actionhero";
 import { Op } from "sequelize";
 
@@ -34,7 +34,7 @@ describe("session", () => {
 
     describe("with session", () => {
       let csrfToken: string;
-      let connection;
+      let connection: Connection;
 
       beforeAll(async () => {
         connection = await specHelper.buildConnection();
@@ -43,7 +43,7 @@ describe("session", () => {
           email: "mario@example.com",
           password: "P@ssw0rd!",
         };
-        const signInResponse = await specHelper.runAction<sessionCreate>(
+        const signInResponse = await specHelper.runAction<SessionCreate>(
           "session:create",
           connection
         );
