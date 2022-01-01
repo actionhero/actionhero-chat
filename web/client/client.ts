@@ -12,7 +12,11 @@ export class Client {
     }
   }
 
-  async action(verb = "get", path, data: AxiosRequestConfig["data"] = {}) {
+  async action(
+    verb = "get",
+    path: string,
+    data: AxiosRequestConfig["data"] = {}
+  ) {
     const options: AxiosRequestConfig = {
       params: null,
       data: null,

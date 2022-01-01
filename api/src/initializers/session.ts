@@ -1,4 +1,11 @@
-import { api, action, Initializer, Connection, chatRoom } from "actionhero";
+import {
+  api,
+  action,
+  Initializer,
+  Connection,
+  chatRoom,
+  ActionProcessor,
+} from "actionhero";
 import { User } from "./../models/User";
 import crypto from "crypto";
 
@@ -36,7 +43,7 @@ const authenticatedUserMiddleware: action.ActionMiddleware = {
   name: "authenticated-user",
   global: false,
   priority: 1000,
-  preProcessor: async (data) => {
+  preProcessor: async (data: ActionProcessor<any>) => {
     const connection: Connection = data.connection;
 
     const sessionData = await api.session.load(connection);
@@ -80,10 +87,7 @@ const modelChatRoomMiddleware: chatRoom.ChatMiddleware = {
 };
 
 export class Session extends Initializer {
-  constructor() {
-    super();
-    this.name = "session";
-  }
+  name = "session";
 
   async initialize() {
     const redis = api.redis.clients.client;
