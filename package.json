@@ -26,7 +26,7 @@
     "actionhero": "^28.1.7",
     "ah-next-plugin": "^1.0.1",
     "ah-sequelize-plugin": "^5.1.1",
-    "axios": "^0.24.0",
+    "axios": "^0.25.0",
     "bcrypt": "^5.0.1",
     "ioredis": "^4.28.3",
     "next": "12.0.10",
