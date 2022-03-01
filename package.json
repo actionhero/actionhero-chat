@@ -54,7 +54,7 @@
     "@types/validator": "^13.7.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
-    "jest": "27.4.7",
+    "jest": "27.5.1",
     "jest-environment-webdriver": "grouparoo/jest-webdriver#jest-v27-webdriver",
     "prettier": "^2.5.1",
     "ts-jest": "^27.1.3",
