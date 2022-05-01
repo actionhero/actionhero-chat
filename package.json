@@ -56,7 +56,7 @@
     "enzyme-adapter-react-16": "^1.15.6",
     "jest": "27.5.1",
     "jest-environment-webdriver": "grouparoo/jest-webdriver#jest-v27-webdriver",
-    "prettier": "^2.6.1",
+    "prettier": "^2.6.2",
     "ts-jest": "^27.1.4",
     "ts-node-dev": "1.1.8",
     "type-fest": "^2.12.2",
